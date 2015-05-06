@@ -1,8 +1,8 @@
-### scientific-calculator
+## scientific-calculator
 
-# Tasks
+### Tasks
 
-Jae + Sufei (approach together, will update with individual break down as we go, still figuring the "meat" out):
+**Jae + Sufei** (approach together, will update with individual break down as we go, still figuring the "meat" out):
 * Parsing input
 * Scientific calculator
 
@@ -15,6 +15,3 @@ Jae + Sufei (approach together, will update with individual break down as we go,
 Bonuses? BONUSES!
 * MATERIALLLLL <3
 * Wolfram Alpha API?
-
-
-----
