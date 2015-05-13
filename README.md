@@ -13,6 +13,13 @@
 
 **Sufei:**
 * Handle edge cases
+* 
+
+**TODO**
+* replace operators if more than one is clicked
+* account for -1 out of range error in operator setListener methods
+* how to open and close paren?
+* weird null after orientation change...
 
 Bonuses? BONUSES!
 * MATERIALLLLL <3
