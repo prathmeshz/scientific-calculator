@@ -21,6 +21,7 @@
 * weird null after orientation change...
 * Add operator to output display
 * How to handle long input (numbers going out of bounds of display)
+* Add delete button to basic calc instead of paren?
 
 Bonuses? BONUSES!
 * MATERIALLLLL <3
