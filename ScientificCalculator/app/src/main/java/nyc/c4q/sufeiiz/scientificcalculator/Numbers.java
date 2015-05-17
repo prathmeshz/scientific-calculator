@@ -6,7 +6,7 @@ import android.widget.TextView;
 /**
  * Created by sufeizhao on 5/5/15.
  */
-public class Numbers {
+public class Numbers extends MainActivity{
 
     View.OnClickListener listener = new View.OnClickListener() {
         @Override
@@ -47,6 +47,8 @@ public class Numbers {
                     break;
                 default:
                     throw new UnsupportedOperationException("should never happen");
+
+
             }
 
         }
