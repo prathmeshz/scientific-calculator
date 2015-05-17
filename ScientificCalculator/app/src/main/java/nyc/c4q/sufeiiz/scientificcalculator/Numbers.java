@@ -1,5 +1,6 @@
 package nyc.c4q.sufeiiz.scientificcalculator;
 
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -7,18 +8,47 @@ import android.widget.TextView;
  */
 public class Numbers {
 
-    private TextView mainOutput;
-    private String num, current, equation;
+    View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int buttonId = v.getId();
+            String num = null;
 
-    public Numbers(String num, TextView mainOutput) {
-        this.num = num;
-        this.mainOutput = mainOutput;
-    }
+            switch (buttonId) {
+                case R.id.zero:
+                    num = "0";
+                    break;
+                case R.id.one:
+                    num = "1";
+                    break;
+                case R.id.two:
+                    num = "2";
+                    break;
+                case R.id.three:
+                    num = "3";
+                    break;
+                case R.id.four:
+                    num = "4";
+                    break;
+                case R.id.five:
+                    num = "5";
+                    break;
+                case R.id.six:
+                    num = "6";
+                    break;
+                case R.id.seven:
+                    num = "7";
+                    break;
+                case R.id.eight:
+                    num = "8";
+                    break;
+                case R.id.nine:
+                    num = "9";
+                    break;
+                default:
+                    throw new UnsupportedOperationException("should never happen");
+            }
 
-    public void click() {
-        current += "0";
-        equation += "0";
-        mainOutput.setText(current);
-    }
+        }
+    };
 }
-
