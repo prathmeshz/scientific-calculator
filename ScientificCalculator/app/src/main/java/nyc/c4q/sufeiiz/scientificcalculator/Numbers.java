@@ -3,54 +3,54 @@ package nyc.c4q.sufeiiz.scientificcalculator;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Arrays;
+
 /**
  * Created by sufeizhao on 5/5/15.
  */
 public class Numbers extends MainActivity{
 
-    View.OnClickListener listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int buttonId = v.getId();
-            String num = null;
+    // returns String of the percentage as a decimal
+    public static String percentage(String num, String lastNum) {
+        String converted;
+        double newCurr = (Double.valueOf(num) / 100);
 
-            switch (buttonId) {
-                case R.id.zero:
-                    num = "0";
-                    break;
-                case R.id.one:
-                    num = "1";
-                    break;
-                case R.id.two:
-                    num = "2";
-                    break;
-                case R.id.three:
-                    num = "3";
-                    break;
-                case R.id.four:
-                    num = "4";
-                    break;
-                case R.id.five:
-                    num = "5";
-                    break;
-                case R.id.six:
-                    num = "6";
-                    break;
-                case R.id.seven:
-                    num = "7";
-                    break;
-                case R.id.eight:
-                    num = "8";
-                    break;
-                case R.id.nine:
-                    num = "9";
-                    break;
-                default:
-                    throw new UnsupportedOperationException("should never happen");
-
-
-            }
-
+        if (lastNum.isEmpty()) {
+            converted = String.valueOf(newCurr);
+        } else {
+            newCurr = Double.valueOf(lastNum) * newCurr;
+            converted = String.valueOf(newCurr);
         }
-    };
+
+        return converted;
+    }
+
+    // returns true if last input was +, -, *, /, (
+    public static boolean lastInputIsOperator(String equation) {
+        String[] operators = {"+", "-", "*", "/", "("};
+        return Arrays.asList(operators).contains(String.valueOf(equation.charAt(equation.length() - 1)));
+    }
+
+    // returns true if last input was %
+    public static boolean lastInputIsPercent(String display) {
+        return display.charAt(display.length() - 1) == '%';
+    }
+
+    // returns factorial answer
+    static boolean negative = false;
+    public static double factorial(int x) {
+        if (x < 0) {
+            x *= -1;
+            negative = true;
+        }
+        if (x == 1) {
+            if (negative) {
+                return -1;
+            } else {
+                return 1;
+            }
+        } else {
+            return x * factorial(x-1);
+        }
+    }
 }

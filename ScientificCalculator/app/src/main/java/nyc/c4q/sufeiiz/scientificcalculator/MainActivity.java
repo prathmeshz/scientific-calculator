@@ -14,8 +14,8 @@ import java.util.Arrays;
 
 public class MainActivity extends ActionBarActivity {
 
-    private TextView mainOutput;
-    private String equation, current, lastAns, lastCurr, display;
+    private TextView mainOutput, ansOutput;
+    private String equation, currNum, lastAns, lastNum, display;
     private int count;
 
     @Override
@@ -23,57 +23,62 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainOutput = (TextView) findViewById(R.id.main_output);
+        mainOutput = (TextView) findViewById(R.id.output_calc);
+        ansOutput = (TextView) findViewById(R.id.output_answer);
         if (savedInstanceState == null) {
             mainOutput.setText("");
+            ansOutput.setText("");
             display = "";
             equation = "";
-            current = "";
-            lastCurr = "";
+            currNum = "";
+            lastNum = "";
             lastAns = "";
             count = 0;
         } else {
-            mainOutput.setText(savedInstanceState.getString("current"));
+            ansOutput.setText(savedInstanceState.getString("lastAns"));
+            mainOutput.setText(savedInstanceState.getString("display"));
             display = savedInstanceState.getString("display");
             equation = savedInstanceState.getString("equation");
-            current = savedInstanceState.getString("current");
-            lastCurr = savedInstanceState.getString("lastCurr");
+            currNum = savedInstanceState.getString("currNum");
+            lastNum = savedInstanceState.getString("lastNum");
             lastAns = savedInstanceState.getString("lastAns");
             count = savedInstanceState.getInt("count");
         }
 
-        final Button clr = (Button) findViewById(R.id.clr);
-        final Button ans = (Button) findViewById(R.id.ans);
-        final Button negative = (Button) findViewById(R.id.negative);
-        final Button backspace = (Button) findViewById(R.id.backspace);
-        final Button open = (Button) findViewById(R.id.open);
-        final Button close = (Button) findViewById(R.id.close);
-        final Button add = (Button) findViewById(R.id.add);
-        final Button minus = (Button) findViewById(R.id.minus);
-        final Button multiply = (Button) findViewById(R.id.multiply);
-        final Button divide = (Button) findViewById(R.id.divide);
-        final Button percent = (Button) findViewById(R.id.percent);
-        final Button zero = (Button) findViewById(R.id.zero);
-        final Button one = (Button) findViewById(R.id.one);
-        final Button two = (Button) findViewById(R.id.two);
-        final Button three = (Button) findViewById(R.id.three);
-        final Button four = (Button) findViewById(R.id.four);
-        final Button five = (Button) findViewById(R.id.five);
-        final Button six = (Button) findViewById(R.id.six);
-        final Button seven = (Button) findViewById(R.id.seven);
-        final Button eight = (Button) findViewById(R.id.eight);
-        final Button nine = (Button) findViewById(R.id.nine);
-        final Button dot = (Button) findViewById(R.id.dot);
-        final Button equal = (Button) findViewById(R.id.equal);
-//        final Button sin = (Button) findViewById(R.id.);
-//        final Button cos = (Button) findViewById(R.id.);
-//        final Button tan = (Button) findViewById(R.id.);
+        final Button clr = (Button) findViewById(R.id.btn_clear);
+        final Button ans = (Button) findViewById(R.id.btn_ans);
+        final Button negative = (Button) findViewById(R.id.btn_int);
+        final Button backspace = (Button) findViewById(R.id.btn_backspace);
+        final Button open = (Button) findViewById(R.id.btn_paren_open);
+        final Button close = (Button) findViewById(R.id.btn_paren_close);
+        final Button add = (Button) findViewById(R.id.btn_add);
+        final Button minus = (Button) findViewById(R.id.btn_sub);
+        final Button multiply = (Button) findViewById(R.id.btn_mult);
+        final Button divide = (Button) findViewById(R.id.btn_div);
+        final Button percent = (Button) findViewById(R.id.btn_percent);
+        final Button zero = (Button) findViewById(R.id.btn_0);
+        final Button one = (Button) findViewById(R.id.btn_1);
+        final Button two = (Button) findViewById(R.id.btn_2);
+        final Button three = (Button) findViewById(R.id.btn_3);
+        final Button four = (Button) findViewById(R.id.btn_4);
+        final Button five = (Button) findViewById(R.id.btn_5);
+        final Button six = (Button) findViewById(R.id.btn_6);
+        final Button seven = (Button) findViewById(R.id.btn_7);
+        final Button eight = (Button) findViewById(R.id.btn_8);
+        final Button nine = (Button) findViewById(R.id.btn_9);
+        final Button dot = (Button) findViewById(R.id.btn_decimal);
+        final Button equal = (Button) findViewById(R.id.btn_equals);
 
         // Numbers OnClickListener
         zero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                current += "0";
+                if (display.isEmpty());
+                else if (display.charAt(display.length() - 1) == 's') {
+                    equation += "*";
+                    display += "×";
+                }
+                currNum += "0";
                 equation += "0";
                 display += "0";
                 mainOutput.setText(display);
@@ -82,7 +87,12 @@ public class MainActivity extends ActionBarActivity {
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                current += "1";
+                if (display.isEmpty());
+                else if (display.charAt(display.length() - 1) == 's') {
+                    equation += "*";
+                    display += "×";
+                }
+                currNum += "1";
                 equation += "1";
                 display += "1";
                 mainOutput.setText(display);
@@ -91,7 +101,12 @@ public class MainActivity extends ActionBarActivity {
         two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                current += "2";
+                if (display.isEmpty());
+                else if (display.charAt(display.length() - 1) == 's') {
+                    equation += "*";
+                    display += "×";
+                }
+                currNum += "2";
                 equation += "2";
                 display += "2";
                 mainOutput.setText(display);
@@ -100,7 +115,12 @@ public class MainActivity extends ActionBarActivity {
         three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                current += "3";
+                if (display.isEmpty());
+                else if (display.charAt(display.length() - 1) == 's') {
+                    equation += "*";
+                    display += "×";
+                }
+                currNum += "3";
                 equation += "3";
                 display += "3";
                 mainOutput.setText(display);
@@ -109,7 +129,12 @@ public class MainActivity extends ActionBarActivity {
         four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                current += "4";
+                if (display.isEmpty());
+                else if (display.charAt(display.length() - 1) == 's') {
+                    equation += "*";
+                    display += "×";
+                }
+                currNum += "4";
                 equation += "4";
                 display += "4";
                 mainOutput.setText(display);
@@ -118,7 +143,12 @@ public class MainActivity extends ActionBarActivity {
         five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                current += "5";
+                if (display.isEmpty());
+                else if (display.charAt(display.length() - 1) == 's') {
+                    equation += "*";
+                    display += "×";
+                }
+                currNum += "5";
                 equation += "5";
                 display += "5";
                 mainOutput.setText(display);
@@ -127,7 +157,12 @@ public class MainActivity extends ActionBarActivity {
         six.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                current += "6";
+                if (display.isEmpty());
+                else if (display.charAt(display.length() - 1) == 's') {
+                    equation += "*";
+                    display += "×";
+                }
+                currNum += "6";
                 equation += "6";
                 display += "6";
                 mainOutput.setText(display);
@@ -136,7 +171,12 @@ public class MainActivity extends ActionBarActivity {
         seven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                current += "7";
+                if (display.isEmpty());
+                else if (display.charAt(display.length() - 1) == 's') {
+                    equation += "*";
+                    display += "×";
+                }
+                currNum += "7";
                 equation += "7";
                 display += "7";
                 mainOutput.setText(display);
@@ -145,7 +185,12 @@ public class MainActivity extends ActionBarActivity {
         eight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                current += "8";
+                if (display.isEmpty());
+                else if (display.charAt(display.length() - 1) == 's') {
+                    equation += "*";
+                    display += "×";
+                }
+                currNum += "8";
                 equation += "8";
                 display += "8";
                 mainOutput.setText(display);
@@ -154,186 +199,14 @@ public class MainActivity extends ActionBarActivity {
         nine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                current += "9";
-                equation += "9";
-                display += "9";
-                mainOutput.setText(display);
-            }
-        });
-
-        // clear everything
-        clr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                equation = "";
-                current = "";
-                lastCurr = "";
-                display = "";
-                mainOutput.setText(display);
-            }
-        });
-        // TODO fix backspace percentage, SINCOSTAN, LN
-        backspace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (equation.isEmpty());
-                else if (display.charAt(display.length() - 1) == '%') {
-                    display = display.substring(0, display.length() - 1); // removes "%"
-                    double percentNum = Double.valueOf(current) / 100;
-                    String converted;
-
-                    if (lastCurr.isEmpty()) {
-                        converted = String.valueOf(percentNum);
-                    } else {
-                        percentNum = Double.valueOf(lastCurr) * percentNum;
-                        converted = String.valueOf(percentNum);
-                    }
-
-                    equation = equation.substring(0, equation.length() - converted.length());
-                    equation += current;
-                } else {
-                    if (current.length() > 0)
-                        current = current.substring(0, current.length()-1);
-                    if (equation.length() > 0)
-                        equation = equation.substring(0, equation.length()-1);
-                    if (display.length() > 0)
-                        display = display.substring(0, display.length()-1);
-                }
-                mainOutput.setText(display);
-            }
-        });
-
-        // for +-*/% if last added input is not a number (is a sign), ignore
-        // if last input was "(", ignore
-        final String[] operators = {"+", "-", "*", "/", "("};
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (equation.isEmpty() && !current.isEmpty()) {
-                    equation = current + "+";
-                    display = current + "+";
-                } else if (equation.isEmpty());
-                else if (Arrays.asList(operators).contains(String.valueOf(equation.charAt(equation.length() - 1))) ||
-                        equation.charAt(equation.length() - 1) == '%') {
-                    equation = equation.substring(0, equation.length()-1) + "+";
-                    display = display.substring(0, display.length()-1) + "+";
-                } else {
-                    System.out.println(equation.charAt(equation.length() - 1));
-                    equation += "+";
-                    lastCurr = current;
-                    current = "";
-                    display += "+";
-                }
-                mainOutput.setText(display);
-            }
-        });
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (equation.isEmpty() && !current.isEmpty()) {
-                    equation = current + "-";
-                    display = current + "-";
-                } else if (Arrays.asList(operators).contains(String.valueOf(equation.charAt(equation.length() - 1))) ||
-                        equation.charAt(equation.length() - 1) == '%') {
-                    equation = equation.substring(0, equation.length()-1) + "-";
-                    display = display.substring(0, display.length()-1) + "-";
-                }
-                else {
-                    equation += "-";
-                    lastCurr = current;
-                    current = "";
-                    display += "-";
-                }
-                mainOutput.setText(display);
-            }
-        });
-        multiply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (equation.isEmpty() && !current.isEmpty()) {
-                    equation = current + "*";
-                    display = current + "×";
-                } else if (Arrays.asList(operators).contains(String.valueOf(equation.charAt(equation.length() - 1))) ||
-                        equation.charAt(equation.length() - 1) == '%') {
-                    equation = equation.substring(0, equation.length()-1) + "*";
-                    display = display.substring(0, display.length()-1) + "×";
-                }
-                else {
+                if (display.isEmpty());
+                else if (display.charAt(display.length() - 1) == 's') {
                     equation += "*";
-                    lastCurr = current;
-                    current = "";
                     display += "×";
                 }
-                mainOutput.setText(display);
-            }
-        });
-        divide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (equation.isEmpty() && !current.isEmpty()) {
-                    equation = current + "/";
-                    display = current + "÷";
-                } else if (Arrays.asList(operators).contains(String.valueOf(equation.charAt(equation.length() - 1))) ||
-                        equation.charAt(equation.length() - 1) == '%') {
-                    equation = equation.substring(0, equation.length()-1) + "/";
-                    display = display.substring(0, display.length()-1) + "÷";
-                }
-                else {
-                    equation += "/";
-                    lastCurr = current;
-                    current = "";
-                    display += "÷";
-                }
-                mainOutput.setText(display);
-            }
-        });
-        percent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (equation.isEmpty());
-                else if (Arrays.asList(operators).contains(String.valueOf(equation.charAt(equation.length() - 1))) ||
-                        equation.charAt(equation.length() - 1) == '%');
-                else {
-                    equation = equation.substring(0, equation.length() - current.length());
-                    double newCurr = (Double.valueOf(current) / 100);
-                    String converted;
-
-                    if (lastCurr.isEmpty()) {
-                        converted = String.valueOf(newCurr);
-                    } else {
-                        newCurr = Double.valueOf(lastCurr) * newCurr;
-                        converted = String.valueOf(newCurr);
-                    }
-
-                    equation += converted;
-                    display += "%";
-                    mainOutput.setText(display);
-                }
-            }
-        });
-
-        // if current is negative, turn it to a positive
-        // if current is positive, add negative sign to the front of the last input number
-        negative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (equation.isEmpty()) {
-                    if (current.contains("-"))
-                        current = current.substring(1);
-                    else
-                        current = "-" + current;
-                }
-                else if (current.contains("-")) {
-                    equation = equation.substring(0, equation.length() - current.length());
-                    display = display.substring(0, display.length() - current.length());
-                    current = current.substring(1);
-                } else {
-                    equation = equation.substring(0, equation.length() - current.length());
-                    display = display.substring(0, display.length() - current.length());
-                    current = "-" + current;
-                }
-                equation += current;
-                display += current;
+                currNum += "9";
+                equation += "9";
+                display += "9";
                 mainOutput.setText(display);
             }
         });
@@ -343,64 +216,212 @@ public class MainActivity extends ActionBarActivity {
         dot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (current.contains(".")) ;
-                else if (current.equals("")) {
-                    current += "0.";
+                if (currNum.contains(".")) ;
+                else if (currNum.equals("")) {
+                    currNum += "0.";
                     equation += "0.";
                     display += "0.";
                 } else {
                     equation += ".";
-                    current += ".";
+                    currNum += ".";
                     display += ".";
                 }
                 mainOutput.setText(display);
             }
         });
 
-        ans.setOnClickListener(new View.OnClickListener() {
+        // clear everything
+        clr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lastCurr = current;
-                current = lastAns;
-                equation += lastAns;
-                display += lastAns;
+                equation = "";
+                currNum = "";
+                lastNum = "";
+                display = "";
+                ansOutput.setText("");
                 mainOutput.setText(display);
             }
         });
 
-        equal.setOnClickListener(new View.OnClickListener() {
+        // TODO fix backspace for sincostan once that's implemented
+        // if equation is empty, do nothing
+        // else if the last input was %, convert to decimal to find length of converted num
+        // else delete last char in currNum, equation, and display
+        backspace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (count > 0) {
-                    for (; count > 0; count--) {
-                        equation += ")";
-                    }
-                }
-                if (equation.equals(""))
-                    mainOutput.setText("");
-                else if (Arrays.asList(operators).contains(String.valueOf(equation.charAt(equation.length() - 1)))) {
-                    equation = "";
-                    current = "";
-                    lastCurr = "";
-                    display = "";
-                    mainOutput.setText("Error");
+                if (equation.isEmpty());
+                else if (display.charAt(display.length() - 1) == '%') {
+                    display = display.substring(0, display.length() - 1); // removes "%"
+
+                    // find length of converted decimal and remove from equation; add back current num
+                    String converted = Numbers.percentage(currNum, lastNum);
+                    equation = equation.substring(0, equation.length() - converted.length());
+                    equation += currNum;
                 } else {
-                    BigDecimal answer = new Expression(equation).eval();
-                    lastAns = String.valueOf(answer.doubleValue());
+                    if (currNum.length() > 0)
+                        currNum = currNum.substring(0, currNum.length()-1);
+                    if (equation.length() > 0)
+                        equation = equation.substring(0, equation.length()-1);
+                    if (display.length() > 0)
+                        display = display.substring(0, display.length()-1);
+                }
+                mainOutput.setText(display);
+            }
+        });
 
-                    // returns long if answer is a whole number, otherwise return double
-                    if (lastAns.substring(lastAns.length() - 2).equals(".0"))
-                        lastAns = String.valueOf(answer.longValue());
+        // if equation is empty and current is not empty, add current to equation
+        // else if only equation is empty, ignore (needed so there's no out of range error)
+        // else if last input was operator or (, replace
+        // else just add operator
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (equation.isEmpty() && !lastAns.isEmpty()) {
+                    lastNum = lastAns;
+                    equation = lastAns + "+";
+                    display = lastAns + "+";
+                } else if (equation.isEmpty());
+                else if (Numbers.lastInputIsOperator(equation)) {
+                    equation = equation.substring(0, equation.length()-1) + "+";
+                    display = display.substring(0, display.length()-1) + "+";
+                } else {
+                    equation += "+";
+                    lastNum = currNum;
+                    currNum = "";
+                    display += "+";
+                }
+                mainOutput.setText(display);
+            }
+        });
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (equation.isEmpty() && !lastAns.isEmpty()) {
+                    lastNum = lastAns;
+                    equation = lastAns + "-";
+                    display = lastAns + "-";
+                } else if (equation.isEmpty());
+                else if (Numbers.lastInputIsOperator(equation)) {
+                    equation = equation.substring(0, equation.length()-1) + "-";
+                    display = display.substring(0, display.length()-1) + "-";
+                } else {
+                    equation += "-";
+                    lastNum = currNum;
+                    currNum = "";
+                    display += "-";
+                }
+                mainOutput.setText(display);
+            }
+        });
+        multiply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (equation.isEmpty() && !lastAns.isEmpty()) {
+                    lastNum = lastAns;
+                    equation = lastAns + "*";
+                    display = lastAns + "×";
+                } else if (equation.isEmpty());
+                else if (Numbers.lastInputIsOperator(equation)) {
+                    equation = equation.substring(0, equation.length()-1) + "*";
+                    display = display.substring(0, display.length()-1) + "×";
+                } else {
+                    equation += "*";
+                    lastNum = currNum;
+                    currNum = "";
+                    display += "×";
+                }
+                mainOutput.setText(display);
+            }
+        });
+        divide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (equation.isEmpty() && !lastAns.isEmpty()) {
+                    lastNum = lastAns;
+                    equation = lastAns + "/";
+                    display = lastAns + "÷";
+                } else if (equation.isEmpty());
+                else if (Numbers.lastInputIsOperator(equation)) {
+                    equation = equation.substring(0, equation.length()-1) + "/";
+                    display = display.substring(0, display.length()-1) + "÷";
+                } else {
+                    equation += "/";
+                    lastNum = currNum;
+                    currNum = "";
+                    display += "÷";
+                }
+                mainOutput.setText(display);
+            }
+        });
 
-                    lastCurr = "";
-                    current = lastAns;
-                    equation = "";
-                    display = "";
-                    mainOutput.setText(lastAns);
+        // if equation is empty, ignore
+        // else if last input was operator or ( or %, ignore
+        // else convert percentage to number
+        percent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (equation.isEmpty());
+                else if (Numbers.lastInputIsOperator(equation) ||
+                        Numbers.lastInputIsPercent(equation));
+                else {
+                    equation = equation.substring(0, equation.length() - currNum.length());
+                    String converted = Numbers.percentage(currNum, lastNum);
+
+                    equation += converted;
+                    display += "%";
+                    mainOutput.setText(display);
                 }
             }
         });
 
+        // if equation is empty, add - accordingly
+        // else if last input was %, find length of converted number and add - accordingly
+        // else add - accordingly
+        negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (equation.isEmpty()) {
+                    if (currNum.contains("-"))
+                        currNum = currNum.substring(1);
+                    else
+                        currNum = "-" + currNum;
+                    equation += currNum;
+                    display += currNum;
+                } else if (Numbers.lastInputIsPercent(display)) {
+                    String converted = Numbers.percentage(currNum, lastNum);
+                    display = display.substring(0, display.length() - currNum.length() - 1);
+                    equation = equation.substring(0, equation.length() - converted.length());
+                    if (currNum.contains("-")) {
+                        currNum = currNum.substring(1);
+                        display += currNum + "%";
+                        equation += converted.substring(1);
+                    } else {
+                        currNum = "-" + currNum;
+                        display += currNum + "%";
+                        equation += "-" + converted;
+                    }
+                } else {
+                    if (currNum.contains("-")) {
+                        equation = equation.substring(0, equation.length() - currNum.length());
+                        display = display.substring(0, display.length() - currNum.length());
+                        currNum = currNum.substring(1);
+                    } else {
+                        equation = equation.substring(0, equation.length() - currNum.length());
+                        display = display.substring(0, display.length() - currNum.length());
+                        currNum = "-" + currNum;
+                    }
+                    equation += currNum;
+                    display += currNum;
+                }
+                mainOutput.setText(display);
+            }
+        });
+
+        // increase count for every opened parentheses
+        // if equation if empty, open parentheses
+        // else if last input was a number or last input was ), add multiply before open
+        // else just open
         open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -408,7 +429,7 @@ public class MainActivity extends ActionBarActivity {
                     equation += "(";
                     display += "(";
                 } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                       equation.charAt(equation.length() - 1) == ')') {
+                        equation.charAt(equation.length() - 1) == ')') {
                     equation += "*(";
                     display += "×(";
                 } else {
@@ -419,11 +440,15 @@ public class MainActivity extends ActionBarActivity {
                 mainOutput.setText(display);
             }
         });
+
+        // decrease count for every closed parentheses
+        // if equation if empty or count is less than zero or last input was operator, ignore
+        // else just close
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (equation.isEmpty() || count <= 0 ||
-                        Arrays.asList(operators).contains(equation.charAt(equation.length() - 1)));
+                        Numbers.lastInputIsOperator(equation));
                 else {
                     equation += ")";
                     display += ")";
@@ -433,24 +458,63 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        // save last answer (whenever = is clicked)
+        ans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lastNum = currNum;
+                currNum = lastAns;
+                equation += lastAns;
+                display += "Ans";
+                mainOutput.setText(display);
+            }
+        });
 
-        // Scientific
-//        sin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        // if parentheses were not closed properly, close them
+        // else if last input was operator, display error message
+        // else parse equation for answer
+        equal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count > 0) {
+                    for (; count > 0; count--) {
+                        equation += ")";
+                    }
+                }
+                if (equation.equals(""))
+                    mainOutput.setText("");
+                else if (Numbers.lastInputIsOperator(equation)) {
+                    equation = "";
+                    currNum = "";
+                    lastNum = "";
+                    display = "";
+                    mainOutput.setText("Error");
+                } else {
+                    BigDecimal answer = new Expression(equation).eval();
+                    lastAns = String.valueOf(answer.doubleValue());
+
+                    // returns long if answer is a whole number, otherwise return double
+                    if (lastAns.substring(lastAns.length() - 2).equals(".0"))
+                        lastAns = String.valueOf(answer.longValue());
+
+                    lastNum = "";
+                    currNum = "";
+                    equation = "";
+                    display = "";
+                    ansOutput.setText(lastAns);
+                }
+            }
+        });
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("current", current);
+        outState.putString("currNum", currNum);
         outState.putString("equation", equation);
         outState.putString("lastAns", lastAns);
         outState.putString("display", display);
-        outState.putString("lastCurr", lastCurr);
+        outState.putString("lastNum", lastNum);
         outState.putInt("count", count);
     }
 
