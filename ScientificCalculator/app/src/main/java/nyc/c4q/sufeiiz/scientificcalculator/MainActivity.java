@@ -32,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
             equation = "";
             currNum = "";
             lastNum = "";
-            lastAns = "";
+            lastAns = "0";
             count = 0;
         } else {
             ansOutput.setText(savedInstanceState.getString("lastAns"));
@@ -483,19 +483,22 @@ public class MainActivity extends ActionBarActivity {
                 }
                 if (equation.equals(""))
                     mainOutput.setText("");
-                else if (Numbers.lastInputIsOperator(equation)) {
-                    equation = "";
-                    currNum = "";
-                    lastNum = "";
-                    display = "";
-                    mainOutput.setText("Error");
-                } else {
-                    BigDecimal answer = new Expression(equation).eval();
-                    lastAns = String.valueOf(answer.doubleValue());
+                else {
+                    try {
+                        BigDecimal answer = new Expression(equation).eval();
 
-                    // returns long if answer is a whole number, otherwise return double
-                    if (lastAns.substring(lastAns.length() - 2).equals(".0"))
-                        lastAns = String.valueOf(answer.longValue());
+                        lastAns = String.valueOf(answer.doubleValue());
+
+                        // returns long if answer is a whole number, otherwise return double
+                        if (lastAns.substring(lastAns.length() - 2).equals(".0"))
+                            lastAns = String.valueOf(answer.longValue());
+                    } catch (Exception e) {
+                        equation = "";
+                        currNum = "";
+                        lastNum = "";
+                        display = "";
+                        mainOutput.setText("Error");
+                    }
 
                     lastNum = "";
                     currNum = "";
