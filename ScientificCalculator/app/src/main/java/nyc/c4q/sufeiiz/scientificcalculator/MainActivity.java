@@ -266,6 +266,11 @@ public class MainActivity extends ActionBarActivity {
                     String converted = String.valueOf(Numbers.factorial(Integer.valueOf(currNum)));
                     equation = equation.substring(0, equation.length() - converted.length());
                     equation += currNum;
+                } else if (display.charAt(display.length() - 1) == 'e' ||
+                        display.charAt(display.length() - 1) == 'π') {
+                    equation = equation.substring(0, equation.length() - 13);
+                    currNum = "";
+                    display = display.substring(0, display.length() - 1);
                 } else {
                     if (currNum.length() > 0)
                         currNum = currNum.substring(0, currNum.length()-1);
@@ -385,6 +390,8 @@ public class MainActivity extends ActionBarActivity {
 
         // if equation is empty, add - accordingly
         // else if last input was %, find length of converted number and add - accordingly
+        // else if last input was e or pi, find length of converted number and add - accordingly
+        // else if last input was ans, find length of converted number and add - accordingly
         // else add - accordingly
         negative.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -408,6 +415,30 @@ public class MainActivity extends ActionBarActivity {
                         currNum = "-" + currNum;
                         display += currNum + "%";
                         equation += "-" + converted;
+                    }
+                } else if (display.charAt(display.length() - 1) == 'e' ||
+                        display.charAt(display.length() - 1) == 'π') {
+                    char constant = display.charAt(display.length() - 1);
+                    if (currNum.contains("-")) {
+                        currNum = currNum.substring(1);
+                        equation = equation.substring(0, equation.length() - 14) + currNum;
+                        display = display.substring(0, display.length() - 2) + constant;
+                    } else {
+                        currNum = "-" + currNum;
+                        equation = equation.substring(0, equation.length() - 13) + "-" + currNum;
+                        display = display.substring(0, display.length() - 1) + "-" + constant;
+                    }
+                } else if (display.charAt(display.length() - 1) == 's') {
+                    if (currNum.equals("0")) {
+                        display = display.substring(0, display.length() - 3) + "-" + "Ans";
+                    } else if (currNum.contains("-")) {
+                        currNum = currNum.substring(1);
+                        equation = equation.substring(0, equation.length() - currNum.length() - 1) + currNum;
+                        display = display.substring(0, display.length() - 4) + "Ans";
+                    } else {
+                        currNum = "-" + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length()) + "-" + currNum;
+                        display = display.substring(0, display.length() - 3) + "-" + "Ans";
                     }
                 } else {
                     if (currNum.contains("-")) {
@@ -471,19 +502,21 @@ public class MainActivity extends ActionBarActivity {
         ans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lastNum = currNum;
+                currNum = lastAns;
                 if (lastAns.isEmpty());
-                else if (display.isEmpty());
-                else if (Numbers.lastInputIsConstant(display) ||
+                else if (display.isEmpty()) {
+                    equation += lastAns;
+                    display += "Ans";
+                } else if (Numbers.lastInputIsConstant(display) ||
                         Character.isDigit(display.charAt(display.length() - 1))) {
                     equation += "*" + lastAns;
                     display += "×Ans";
                 } else {
-                    lastNum = currNum;
-                    currNum = lastAns;
                     equation += lastAns;
                     display += "Ans";
-                    mainOutput.setText(display);
                 }
+                mainOutput.setText(display);
             }
         });
 
@@ -618,40 +651,55 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
 
-            // FIXME: Append "× π" for each time π is tapped, change equation
             pi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (display.isEmpty());
-                    else if (display.charAt(display.length() - 1) == 'π') {
-                        equation += "*";
-                        display += "×";
+                    currNum = String.valueOf(3.14159265359);
+                    if (display.isEmpty()) {
+                        equation += currNum;
+                        display += "π";
+                    } else if (Numbers.lastInputIsConstant(display) ||
+                            Character.isDigit(display.charAt(display.length() - 1)) ||
+                            display.charAt(display.length() - 1) == ')') {
+                        equation += "*" + currNum;
+                        display += "×π";
+                    } else {
+                        equation += currNum;
+                        display += "π";
                     }
-                    currNum += "π";
-                    equation += "PI";
-                    display += "π";
                     mainOutput.setText(display);
                 }
             });
 
-            // FIXME: I crash :(
             e.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currNum += "e";
-                    equation += "e";
-                    display += "e";
+                    currNum = String.valueOf(2.71828182846);
+                    if (display.isEmpty()) {
+                        equation += currNum;
+                        display += "e";
+                    } else if (Numbers.lastInputIsConstant(display) ||
+                            Character.isDigit(display.charAt(display.length() - 1)) ||
+                            display.charAt(display.length() - 1) == ')') {
+                        equation += "*" + currNum;
+                        display += "×e";
+                    } else {
+                        equation += currNum;
+                        display += "e";
+                    }
                     mainOutput.setText(display);
                 }
             });
 
+
+
+
+
+
+
+
+
             exp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
-                }
-            });
-            factorial.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
