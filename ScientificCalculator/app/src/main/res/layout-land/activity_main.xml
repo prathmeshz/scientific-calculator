@@ -23,7 +23,7 @@
             android:gravity="right"
             android:text=""
             android:textColor="#ffff"
-            android:textSize="80sp" />
+            android:textSize="50sp" />
 
         <TextView
             android:id="@+id/output_calc"
@@ -66,20 +66,36 @@
                     android:text="Rad" />
 
                 <Button
-                    android:id="@+id/btn_pi"
+                    android:id="@+id/btn_ln"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="π" />
+                    android:text="ln" />
 
                 <Button
-                    android:id="@+id/btn_e"
+                    android:id="@+id/btn_log"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="e" />
+                    android:text="log" />
+
+                <Button
+                    android:id="@+id/btn_log10"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Log10"/>
+
+                <Button
+                    android:id="@+id/btn_abs"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Abs"/>
 
             </LinearLayout>
 
@@ -164,20 +180,20 @@
                     android:text="x!" />
 
                 <Button
-                    android:id="@+id/btn_ln"
+                    android:id="@+id/btn_pi"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="ln" />
+                    android:text="π" />
 
                 <Button
-                    android:id="@+id/btn_log"
+                    android:id="@+id/btn_e"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="log" />
+                    android:text="e" />
 
                 <Button
                     android:id="@+id/btn_sq_root"

@@ -1,5 +1,6 @@
 package nyc.c4q.sufeiiz.scientificcalculator;
 
+import android.content.res.Configuration;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -74,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -88,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -102,7 +104,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -116,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -130,7 +132,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -144,7 +146,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -158,7 +160,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -172,7 +174,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -186,7 +188,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -200,7 +202,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -256,6 +258,12 @@ public class MainActivity extends ActionBarActivity {
 
                     // find length of converted decimal and remove from equation; add back current num
                     String converted = Numbers.percentage(currNum, lastNum);
+                    equation = equation.substring(0, equation.length() - converted.length());
+                    equation += currNum;
+                } else if (display.charAt(display.length() - 1) == '!') {
+                    display = display.substring(0, display.length() - 1); // removes "!"
+
+                    String converted = String.valueOf(Numbers.factorial(Integer.valueOf(currNum)));
                     equation = equation.substring(0, equation.length() - converted.length());
                     equation += currNum;
                 } else {
@@ -429,7 +437,8 @@ public class MainActivity extends ActionBarActivity {
                     equation += "(";
                     display += "(";
                 } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                        equation.charAt(equation.length() - 1) == ')') {
+                        equation.charAt(equation.length() - 1) == ')' ||
+                        Numbers.lastInputIsConstant(display)) {
                     equation += "*(";
                     display += "×(";
                 } else {
@@ -462,11 +471,19 @@ public class MainActivity extends ActionBarActivity {
         ans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lastNum = currNum;
-                currNum = lastAns;
-                equation += lastAns;
-                display += "Ans";
-                mainOutput.setText(display);
+                if (lastAns.isEmpty());
+                else if (display.isEmpty());
+                else if (Numbers.lastInputIsConstant(display) ||
+                        Character.isDigit(display.charAt(display.length() - 1))) {
+                    equation += "*" + lastAns;
+                    display += "×Ans";
+                } else {
+                    lastNum = currNum;
+                    currNum = lastAns;
+                    equation += lastAns;
+                    display += "Ans";
+                    mainOutput.setText(display);
+                }
             }
         });
 
@@ -508,6 +525,175 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
+
+        // SCIENTIFIC CALCULATOR BUTTONS
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            final Button factorial = (Button) findViewById(R.id.btn_factorial);
+            final Button pi = (Button) findViewById(R.id.btn_pi);
+            final Button e = (Button) findViewById(R.id.btn_e);
+            final Button sqRoot = (Button) findViewById(R.id.btn_sq_root);
+            final Button sq = (Button) findViewById(R.id.btn_sq);
+            final Button sin = (Button) findViewById(R.id.btn_sin);
+            final Button cos = (Button) findViewById(R.id.btn_cos);
+            final Button tan = (Button) findViewById(R.id.btn_tan);
+            final Button deg = (Button) findViewById(R.id.btn_deg);
+            final Button rad = (Button) findViewById(R.id.btn_rad);
+            final Button exp = (Button) findViewById(R.id.btn_exp);
+            final Button abs = (Button) findViewById(R.id.btn_abs);
+            final Button ln = (Button) findViewById(R.id.btn_ln);
+            final Button log = (Button) findViewById(R.id.btn_log);
+            final Button log10 = (Button) findViewById(R.id.btn_log10);
+
+            // if equation if empty, ignore
+            // else last operator was an operator, ignore
+            // else try factorial calculation, catch error
+            factorial.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (equation.isEmpty());
+                    else if (Numbers.lastInputIsOperator(equation));
+                    else {
+                        try {
+                            equation = equation.substring(0, equation.length() - currNum.length());
+                            currNum = String.valueOf(Numbers.factorial(Integer.valueOf(currNum)));
+                            equation += currNum;
+                            display += "!";
+                            mainOutput.setText(display);
+                        } catch (Exception e) {
+                            equation = "";
+                            currNum = "";
+                            lastNum = "";
+                            display = "";
+                            mainOutput.setText("Error");
+                        }
+                    }
+                }
+            });
+
+
+
+            sin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currNum += "sin(";
+                    equation += "SIN(";
+                    display += "sin(";
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            cos.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currNum += "cos(";
+                    equation += "COS(";
+                    display += "cos(";
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            tan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currNum += "tan(";
+                    equation += "TAN(";
+                    display += "tan(";
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+
+            rad.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            deg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // FIXME: Append "× π" for each time π is tapped, change equation
+            pi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (display.isEmpty());
+                    else if (display.charAt(display.length() - 1) == 'π') {
+                        equation += "*";
+                        display += "×";
+                    }
+                    currNum += "π";
+                    equation += "PI";
+                    display += "π";
+                    mainOutput.setText(display);
+                }
+            });
+
+            // FIXME: I crash :(
+            e.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currNum += "e";
+                    equation += "e";
+                    display += "e";
+                    mainOutput.setText(display);
+                }
+            });
+
+            exp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            factorial.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            ln.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currNum += "ln(";
+                    equation += "LOG(";
+                    display += "ln(";
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            log.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currNum += "log(";
+                    equation += "LOG10(";
+                    display += "log(";
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            sqRoot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currNum += "√(";
+                    equation += "SQRT(";
+                    display += "√(";
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            sq.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
