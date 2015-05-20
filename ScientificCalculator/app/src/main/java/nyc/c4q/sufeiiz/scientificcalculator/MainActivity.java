@@ -7,8 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -19,6 +21,7 @@ public class MainActivity extends ActionBarActivity {
     private TextView mainOutput, ansOutput;
     private String equation, currNum, lastAns, lastNum, display;
     private int count;
+    private boolean degMode = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,6 +274,10 @@ public class MainActivity extends ActionBarActivity {
                     equation = equation.substring(0, equation.length() - 13);
                     currNum = "";
                     display = display.substring(0, display.length() - 1);
+                } else if (display.charAt(display.length() - 1) == 's') {
+                    equation = equation.substring(0, equation.length() - currNum.length());
+                    currNum = "";
+                    display = display.substring(0, display.length() - 3);
                 } else {
                     if (currNum.length() > 0)
                         currNum = currNum.substring(0, currNum.length()-1);
@@ -570,13 +577,22 @@ public class MainActivity extends ActionBarActivity {
             final Button sin = (Button) findViewById(R.id.btn_sin);
             final Button cos = (Button) findViewById(R.id.btn_cos);
             final Button tan = (Button) findViewById(R.id.btn_tan);
-            final Button deg = (Button) findViewById(R.id.btn_deg);
-            final Button rad = (Button) findViewById(R.id.btn_rad);
             final Button exp = (Button) findViewById(R.id.btn_exp);
-            final Button abs = (Button) findViewById(R.id.btn_abs);
             final Button ln = (Button) findViewById(R.id.btn_ln);
             final Button log = (Button) findViewById(R.id.btn_log);
-            final Button log10 = (Button) findViewById(R.id.btn_log10);
+
+            ToggleButton toggle = (ToggleButton) findViewById(R.id.btn_rad);
+            toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        Toast.makeText(MainActivity.this, "Radians mode on", Toast.LENGTH_SHORT).show();
+                        degMode = false;
+                    } else {
+                        Toast.makeText(MainActivity.this, "Degrees mode on", Toast.LENGTH_SHORT).show();
+                        degMode = true;
+                    }
+                }
+            });
 
             // if equation if empty, ignore
             // else last operator was an operator, ignore
@@ -603,54 +619,6 @@ public class MainActivity extends ActionBarActivity {
                     }
                 }
             });
-
-
-
-            sin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currNum += "sin(";
-                    equation += "SIN(";
-                    display += "sin(";
-                    count++;
-                    mainOutput.setText(display);
-                }
-            });
-            cos.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currNum += "cos(";
-                    equation += "COS(";
-                    display += "cos(";
-                    count++;
-                    mainOutput.setText(display);
-                }
-            });
-            tan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currNum += "tan(";
-                    equation += "TAN(";
-                    display += "tan(";
-                    count++;
-                    mainOutput.setText(display);
-                }
-            });
-
-            rad.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            deg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
-                }
-            });
-
             pi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -670,7 +638,6 @@ public class MainActivity extends ActionBarActivity {
                     mainOutput.setText(display);
                 }
             });
-
             e.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -698,6 +665,63 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+            sin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (equation.isEmpty()) {
+                        equation += "SIN(";
+                        display += "sin(";
+                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                            equation.charAt(equation.length() - 1) == ')' ||
+                            Numbers.lastInputIsConstant(display)) {
+                        equation += "*SIN(";
+                        display += "×sin(";
+                    } else {
+                        equation += "SIN(";
+                        display += "sin(";
+                    }
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            cos.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (equation.isEmpty()) {
+                        equation += "COS(";
+                        display += "cos(";
+                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                            equation.charAt(equation.length() - 1) == ')' ||
+                            Numbers.lastInputIsConstant(display)) {
+                        equation += "*COS(";
+                        display += "×cos(";
+                    } else {
+                        equation += "COS(";
+                        display += "cos(";
+                    }
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            tan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (equation.isEmpty()) {
+                        equation += "TAN(";
+                        display += "tan(";
+                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                            equation.charAt(equation.length() - 1) == ')' ||
+                            Numbers.lastInputIsConstant(display)) {
+                        equation += "*TAN(";
+                        display += "×tan(";
+                    } else {
+                        equation += "TAN(";
+                        display += "tan(";
+                    }
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
 
             exp.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -708,9 +732,18 @@ public class MainActivity extends ActionBarActivity {
             ln.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currNum += "ln(";
-                    equation += "LOG(";
-                    display += "ln(";
+                    if (equation.isEmpty()) {
+                        equation += "LOG(";
+                        display += "ln(";
+                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                            equation.charAt(equation.length() - 1) == ')' ||
+                            Numbers.lastInputIsConstant(display)) {
+                        equation += "*LOG(";
+                        display += "×ln(";
+                    } else {
+                        equation += "LOG(";
+                        display += "ln(";
+                    }
                     count++;
                     mainOutput.setText(display);
                 }
@@ -718,9 +751,18 @@ public class MainActivity extends ActionBarActivity {
             log.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currNum += "log(";
-                    equation += "LOG10(";
-                    display += "log(";
+                    if (equation.isEmpty()) {
+                        equation += "LOG10(";
+                        display += "log(";
+                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                            equation.charAt(equation.length() - 1) == ')' ||
+                            Numbers.lastInputIsConstant(display)) {
+                        equation += "*LOG10(";
+                        display += "×log(";
+                    } else {
+                        equation += "LOG10(";
+                        display += "log(";
+                    }
                     count++;
                     mainOutput.setText(display);
                 }
@@ -728,19 +770,35 @@ public class MainActivity extends ActionBarActivity {
             sqRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currNum += "√(";
-                    equation += "SQRT(";
-                    display += "√(";
+                    if (equation.isEmpty()) {
+                        equation += "SQRT(";
+                        display += "√(";
+                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                            equation.charAt(equation.length() - 1) == ')' ||
+                            Numbers.lastInputIsConstant(display)) {
+                        equation += "*SQRT(";
+                        display += "×√(";
+                    } else {
+                        equation += "SQRT(";
+                        display += "√(";
+                    }
                     count++;
                     mainOutput.setText(display);
                 }
             });
+
+
+
+
+
             sq.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
                 }
             });
+
+
         }
     }
 
