@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <!-- Output -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -16,26 +16,36 @@
 
         <TextView
             android:id="@+id/output_answer"
+            android:layout_above="@id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:gravity="right"
             android:text=""
             android:textColor="#ffff"
-            android:textSize="80sp" />
+            android:textSize="50sp" />
 
-        <TextView
-            android:id="@+id/output_calc"
+        <HorizontalScrollView
+            android:id="@+id/scrollView"
+            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:fontFamily="sans-serif-thin"
-            android:gravity="right"
-            android:text=""
-            android:textSize="24sp" />
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:requiresFadingEdge="horizontal">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/output_calc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
+                android:layout_gravity="right"
+                android:text=""
+                android:textColor="@color/primary_light"
+                android:textSize="26sp" />
+
+        </HorizontalScrollView>
+
+    </RelativeLayout>
 
     <!-- Container for buttons -->
     <LinearLayout
@@ -58,28 +68,45 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btn_clear"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="C" />
+
+                <ToggleButton
                     android:id="@+id/btn_rad"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Rad" />
+                    android:textOn="Deg"
+                    android:textOff="Rad"/>
 
                 <Button
-                    android:id="@+id/btn_pi"
+                    android:id="@+id/btn_ln"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="π" />
+                    android:text="ln" />
 
                 <Button
-                    android:id="@+id/btn_e"
+                    android:id="@+id/btn_log"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="e" />
+                    android:text="log" />
+
+                <Button
+                    android:id="@+id/btn_factorial"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="x!" />
 
             </LinearLayout>
 
@@ -99,12 +126,12 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btn_deg"
+                    android:id="@+id/btn_backspace"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Deg" />
+                    android:text="DEL" />
 
                 <Button
                     android:id="@+id/btn_sin"
@@ -156,28 +183,28 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btn_factorial"
+                    android:id="@+id/btn_ans"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="x!" />
+                    android:text="ANS" />
 
                 <Button
-                    android:id="@+id/btn_ln"
+                    android:id="@+id/btn_pi"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="ln" />
+                    android:text="π" />
 
                 <Button
-                    android:id="@+id/btn_log"
+                    android:id="@+id/btn_e"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="log" />
+                    android:text="e" />
 
                 <Button
                     android:id="@+id/btn_sq_root"
@@ -211,14 +238,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btn_clear"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="C" />
 
                 <Button
                     android:id="@+id/btn_paren_open"
@@ -279,14 +298,6 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btn_backspace"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="DEL" />
-
-                <Button
                     android:id="@+id/btn_paren_close"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
@@ -342,14 +353,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btn_ans"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="ANS" />
 
                 <Button
                     android:id="@+id/btn_percent"
