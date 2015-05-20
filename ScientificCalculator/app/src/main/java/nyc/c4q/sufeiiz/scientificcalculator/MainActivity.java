@@ -658,27 +658,36 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
 
-
-
-
-
-
-
-
             sin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (equation.isEmpty()) {
-                        equation += "SIN(";
-                        display += "sin(";
-                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                            equation.charAt(equation.length() - 1) == ')' ||
-                            Numbers.lastInputIsConstant(display)) {
-                        equation += "*SIN(";
-                        display += "×sin(";
+                    if (degMode) {
+                        if (equation.isEmpty()) {
+                            equation += "SIN(";
+                            display += "sin(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*SIN(";
+                            display += "×sin(";
+                        } else {
+                            equation += "SIN(";
+                            display += "sin(";
+                        }
                     } else {
-                        equation += "SIN(";
-                        display += "sin(";
+                        if (equation.isEmpty()) {
+                            equation += "RAD(SIN(";
+                            display += "sin(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*RAD(SIN(";
+                            display += "×sin(";
+                        } else {
+                            equation += "RAD(SIN(";
+                            display += "sin(";
+                        }
+                        count++;
                     }
                     count++;
                     mainOutput.setText(display);
@@ -687,17 +696,33 @@ public class MainActivity extends ActionBarActivity {
             cos.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (equation.isEmpty()) {
-                        equation += "COS(";
-                        display += "cos(";
-                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                            equation.charAt(equation.length() - 1) == ')' ||
-                            Numbers.lastInputIsConstant(display)) {
-                        equation += "*COS(";
-                        display += "×cos(";
+                    if (degMode) {
+                        if (equation.isEmpty()) {
+                            equation += "COS(";
+                            display += "cos(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*COS(";
+                            display += "×cos(";
+                        } else {
+                            equation += "COS(";
+                            display += "cos(";
+                        }
                     } else {
-                        equation += "COS(";
-                        display += "cos(";
+                        if (equation.isEmpty()) {
+                            equation += "RAD(COS(";
+                            display += "cos(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*RAD(COS(";
+                            display += "×cos(";
+                        } else {
+                            equation += "RAD(COS(";
+                            display += "cos(";
+                        }
+                        count++;
                     }
                     count++;
                     mainOutput.setText(display);
@@ -706,27 +731,36 @@ public class MainActivity extends ActionBarActivity {
             tan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (equation.isEmpty()) {
-                        equation += "TAN(";
-                        display += "tan(";
-                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                            equation.charAt(equation.length() - 1) == ')' ||
-                            Numbers.lastInputIsConstant(display)) {
-                        equation += "*TAN(";
-                        display += "×tan(";
+                    if (degMode) {
+                        if (equation.isEmpty()) {
+                            equation += "TAN(";
+                            display += "tan(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*TAN(";
+                            display += "×tan(";
+                        } else {
+                            equation += "TAN(";
+                            display += "tan(";
+                        }
                     } else {
-                        equation += "TAN(";
-                        display += "tan(";
+                        if (equation.isEmpty()) {
+                            equation += "RAD(TAN(";
+                            display += "tan(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*RAD(TAN(";
+                            display += "×tan(";
+                        } else {
+                            equation += "RAD(TAN(";
+                            display += "tan(";
+                        }
+                        count++;
                     }
                     count++;
                     mainOutput.setText(display);
-                }
-            });
-
-            exp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
                 }
             });
             ln.setOnClickListener(new View.OnClickListener() {
@@ -788,6 +822,13 @@ public class MainActivity extends ActionBarActivity {
             });
 
 
+
+            exp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
+                }
+            });
 
 
 

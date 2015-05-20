@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <!-- Output -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -16,26 +16,36 @@
 
         <TextView
             android:id="@+id/output_answer"
+            android:layout_above="@id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:gravity="right"
             android:text=""
             android:textColor="#ffff"
             android:textSize="50sp" />
 
-        <TextView
-            android:id="@+id/output_calc"
+        <HorizontalScrollView
+            android:id="@+id/scrollView"
+            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:fontFamily="sans-serif-thin"
-            android:gravity="right"
-            android:text=""
-            android:textSize="24sp" />
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:requiresFadingEdge="horizontal">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/output_calc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
+                android:layout_gravity="right"
+                android:text=""
+                android:textColor="@color/primary_light"
+                android:textSize="26sp" />
+
+        </HorizontalScrollView>
+
+    </RelativeLayout>
 
     <!-- Container for buttons -->
     <LinearLayout
