@@ -19,9 +19,10 @@
             android:layout_above="@id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="-10dp"
             android:fontFamily="sans-serif-thin"
             android:gravity="right"
-            android:text=""
+            android:text="00"
             android:textColor="#ffff"
             android:textSize="50sp" />
 
@@ -37,10 +38,10 @@
                 android:id="@+id/output_calc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="-5dp"
                 android:fontFamily="sans-serif-thin"
                 android:layout_gravity="right"
                 android:text=""
-                android:textColor="@color/primary_light"
                 android:textSize="26sp" />
 
         </HorizontalScrollView>

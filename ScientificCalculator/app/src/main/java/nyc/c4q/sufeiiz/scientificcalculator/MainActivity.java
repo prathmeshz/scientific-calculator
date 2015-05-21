@@ -79,7 +79,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (Numbers.lastInputIsConstant(display)) {
+                else if (Numbers.lastInputIsConstant(display) ||
+                        Numbers.lastInputIsPercent(display) ||
+                        Numbers.lastInputIsFactorial(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -93,7 +95,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (Numbers.lastInputIsConstant(display)) {
+                else if (Numbers.lastInputIsConstant(display) ||
+                        Numbers.lastInputIsPercent(display) ||
+                        Numbers.lastInputIsFactorial(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -107,7 +111,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (Numbers.lastInputIsConstant(display)) {
+                else if (Numbers.lastInputIsConstant(display) ||
+                        Numbers.lastInputIsPercent(display) ||
+                        Numbers.lastInputIsFactorial(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -121,7 +127,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (Numbers.lastInputIsConstant(display)) {
+                else if (Numbers.lastInputIsConstant(display) ||
+                        Numbers.lastInputIsPercent(display) ||
+                        Numbers.lastInputIsFactorial(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -135,7 +143,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (Numbers.lastInputIsConstant(display)) {
+                else if (Numbers.lastInputIsConstant(display) ||
+                        Numbers.lastInputIsPercent(display) ||
+                        Numbers.lastInputIsFactorial(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -149,7 +159,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (Numbers.lastInputIsConstant(display)) {
+                else if (Numbers.lastInputIsConstant(display) ||
+                        Numbers.lastInputIsPercent(display) ||
+                        Numbers.lastInputIsFactorial(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -163,7 +175,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (Numbers.lastInputIsConstant(display)) {
+                else if (Numbers.lastInputIsConstant(display) ||
+                        Numbers.lastInputIsPercent(display) ||
+                        Numbers.lastInputIsFactorial(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -177,7 +191,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (Numbers.lastInputIsConstant(display)) {
+                else if (Numbers.lastInputIsConstant(display) ||
+                        Numbers.lastInputIsPercent(display) ||
+                        Numbers.lastInputIsFactorial(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -191,7 +207,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (Numbers.lastInputIsConstant(display)) {
+                else if (Numbers.lastInputIsConstant(display) ||
+                        Numbers.lastInputIsPercent(display) ||
+                        Numbers.lastInputIsFactorial(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -205,7 +223,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (display.isEmpty());
-                else if (Numbers.lastInputIsConstant(display)) {
+                else if (Numbers.lastInputIsConstant(display) ||
+                        Numbers.lastInputIsPercent(display) ||
+                        Numbers.lastInputIsFactorial(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -452,20 +472,41 @@ public class MainActivity extends ActionBarActivity {
                         display = display.substring(0, display.length() - 2) + constant;
                     } else {
                         currNum = "-" + currNum;
-                        equation = equation.substring(0, equation.length() - 13) + "-" + currNum;
+                        equation = equation.substring(0, equation.length() - 13) + currNum;
                         display = display.substring(0, display.length() - 1) + "-" + constant;
                     }
                 } else if (display.charAt(display.length() - 1) == 's') {
                     if (currNum.equals("0")) {
                         display = display.substring(0, display.length() - 3) + "-" + "Ans";
                     } else if (currNum.contains("-")) {
+                        equation = equation.substring(0, equation.length() - currNum.length());
                         currNum = currNum.substring(1);
-                        equation = equation.substring(0, equation.length() - currNum.length() - 1) + currNum;
-                        display = display.substring(0, display.length() - 4) + "Ans";
+                        equation += currNum;
+                        Toast.makeText(MainActivity.this, equation, Toast.LENGTH_SHORT).show();
+                        if (display.endsWith("-Ans")) {
+                            display = display.substring(0, display.length() - 4) + "+" + "Ans";
+                        } else {
+                            display = display.substring(0, display.length() - 3) + "-Ans";
+                        }
                     } else {
                         currNum = "-" + currNum;
                         equation = equation.substring(0, equation.length() - currNum.length()) + "-" + currNum;
-                        display = display.substring(0, display.length() - 3) + "-" + "Ans";
+                        Toast.makeText(MainActivity.this, equation, Toast.LENGTH_SHORT).show();
+                        if (display.endsWith("-Ans")) {
+                            display = display.substring(0, display.length() - 4) + "Ans";
+                        } else {
+                            display = display.substring(0, display.length() - 3) + "-Ans";
+                        }
+                    }
+                } else if (display.charAt(display.length() - 1) == '^') {
+                    if (currNum.contains("-")) {
+                        currNum = currNum.substring(1);
+                        display = display.substring(0, display.length() - currNum.length() - 1) + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length() - 1) + currNum;
+                    } else {
+                        currNum = "-" + currNum;
+                        display = display.substring(0, display.length() - currNum.length() + 1) + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length() + 1) + currNum;
                     }
                 } else {
                     if (currNum.contains("-")) {
@@ -862,7 +903,15 @@ public class MainActivity extends ActionBarActivity {
             sq.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
+                    if (equation.isEmpty() ||
+                            equation.charAt(equation.length() - 1) == '(');
+                    else {
+                        lastNum = currNum;
+                        currNum = "";
+                        equation += "^";
+                        display += "^";
+                    }
+                    mainOutput.setText(display);
                 }
             });
 

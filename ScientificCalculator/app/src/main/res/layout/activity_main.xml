@@ -42,7 +42,6 @@
                 android:fontFamily="sans-serif-thin"
                 android:layout_gravity="right"
                 android:text=""
-                android:textColor="@color/primary_light"
                 android:textSize="26sp" />
 
         </HorizontalScrollView>

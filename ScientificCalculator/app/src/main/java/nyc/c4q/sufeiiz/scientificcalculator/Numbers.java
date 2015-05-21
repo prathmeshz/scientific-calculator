@@ -36,6 +36,14 @@ public class Numbers extends MainActivity{
         return display.charAt(display.length() - 1) == '%';
     }
 
+    public static boolean lastInputIsFactorial(String display) {
+        return display.charAt(display.length() - 1) == '!';
+    }
+
+    public static boolean lastInputIsSq(String display) {
+        return display.charAt(display.length() - 1) == '^';
+    }
+
     public static boolean lastInputIsConstant(String display) {
         return display.charAt(display.length() - 1) == 's' ||
                 display.charAt(display.length() - 1) == 'π' ||
