@@ -15,7 +15,8 @@ https://github.com/accesscode-2-1/unit-1/blob/master/project/requirements.md
 
 **Challenges**
 * Inaccuracies with sin/cos implementation. We researched the Taylor Series but it proved too complex, opted for a simpler approach.
-* Keeping track of several factors simultaneously, reconfiguring logic.
+* Keeping track of several factors simultaneously, elegantly handling special cases, reconfiguring logic.
+* Making up for library deficiencies.
 * Maintaining consistency and utility in UI across devices.
 * Constant debugging!
 
