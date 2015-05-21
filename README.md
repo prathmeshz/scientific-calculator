@@ -25,5 +25,6 @@ https://github.com/accesscode-2-1/unit-1/blob/master/project/requirements.md
 
 **Improvements**
 * Given more time, we would have loved to complete the Wolfram Alpha API and graphing bonuses.
+* Would have loved to explore Material design and animations.
 * Re-evaluate logic that needs to be continuously readjusted.
 * Clean up MainActivity.
