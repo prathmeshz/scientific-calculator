@@ -17,32 +17,32 @@
         <!-- reconfig w/ weight if time allows -->
         <TextView
             android:id="@+id/output_answer"
-            android:layout_above="@id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@id/scrollView"
             android:layout_marginBottom="5dp"
-            android:maxLines="1"
             android:fontFamily="sans-serif-thin"
             android:gravity="right"
+            android:maxLines="1"
             android:text=""
             android:textColor="#ffff"
             android:textSize="70sp" />
 
         <HorizontalScrollView
             android:id="@+id/scrollView"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_marginBottom="5dp"
-            android:scrollbars="none"
-            android:requiresFadingEdge="horizontal">
+            android:requiresFadingEdge="horizontal"
+            android:scrollbars="none">
 
             <TextView
                 android:id="@+id/output_calc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-thin"
                 android:layout_gravity="right"
+                android:fontFamily="sans-serif-thin"
                 android:text=""
                 android:textColor="@color/primary_light"
                 android:textSize="26sp" />
