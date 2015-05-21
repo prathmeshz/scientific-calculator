@@ -462,19 +462,15 @@ public class MainActivity extends ActionBarActivity {
                         equation = equation.substring(0, equation.length() - currNum.length()) + "-" + currNum;
                         display = display.substring(0, display.length() - 3) + "-" + "Ans";
                     }
-                } else if (display.charAt(display.length() - 1) == '^') {
+                }else if (display.charAt(display.length() - 1) == '^') {
                     if (currNum.contains("-")) {
-                        currNum = currNum.replace("-", "");
-                        display = currNum.replace("-", "");
-                        equation = currNum.replace("-", "");
-                    }
-                    // what to do if caret is followed by many numbers?
-//                    else if () {
-//                    }
-                      else {
-                        currNum += "-";
-                        display += "-";
-                        equation += "-";
+                        currNum = currNum.substring(1);
+                        display = display.substring(0, display.length() - currNum.length() - 1) + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length() - 1) + currNum;
+                    } else {
+                        currNum = "-" + currNum;
+                        display = display.substring(0, display.length() - currNum.length() + 1) + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length() + 1) + currNum;
                     }
                 }
                 else {
@@ -858,8 +854,10 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     if (equation.isEmpty() ||
-                        equation.charAt(equation.length() - 1) == '(');
+                            equation.charAt(equation.length() - 1) == '(');
                     else {
+                        lastNum = currNum;
+                        currNum = "";
                         equation += "^";
                         display += "^";
                     }
