@@ -456,7 +456,7 @@ public class MainActivity extends ActionBarActivity {
                         display = display.substring(0, display.length() - 4) + "Ans";
                     } else {
                         currNum = "-" + currNum;
-                        equation = equation.substring(0, equation.length() - currNum.length()) + "-" + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length() + 1) + currNum;
                         display = display.substring(0, display.length() - 3) + "-" + "Ans";
                     }
                 } else if (display.charAt(display.length() - 1) == '^') {
