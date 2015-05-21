@@ -305,6 +305,11 @@ public class MainActivity extends ActionBarActivity {
                 else if (Numbers.lastInputIsOperator(equation)) {
                     equation = equation.substring(0, equation.length()-1) + "+";
                     display = display.substring(0, display.length()-1) + "+";
+                } else if (currNum.contains("E")) {
+                    equation += "))+";
+                    lastNum = currNum.substring(1);
+                    currNum = "";
+                    display += "+";
                 } else {
                     equation += "+";
                     lastNum = currNum;
@@ -325,6 +330,11 @@ public class MainActivity extends ActionBarActivity {
                 else if (Numbers.lastInputIsOperator(equation)) {
                     equation = equation.substring(0, equation.length()-1) + "-";
                     display = display.substring(0, display.length()-1) + "-";
+                } else if (currNum.contains("E")) {
+                    equation += "))-";
+                    lastNum = currNum.substring(1);
+                    currNum = "";
+                    display += "-";
                 } else {
                     equation += "-";
                     lastNum = currNum;
@@ -345,6 +355,11 @@ public class MainActivity extends ActionBarActivity {
                 else if (Numbers.lastInputIsOperator(equation)) {
                     equation = equation.substring(0, equation.length()-1) + "*";
                     display = display.substring(0, display.length()-1) + "×";
+                } else if (currNum.contains("E")) {
+                    equation += "))*";
+                    lastNum = currNum.substring(1);
+                    currNum = "";
+                    display += "×";
                 } else {
                     equation += "*";
                     lastNum = currNum;
@@ -365,6 +380,11 @@ public class MainActivity extends ActionBarActivity {
                 else if (Numbers.lastInputIsOperator(equation)) {
                     equation = equation.substring(0, equation.length()-1) + "/";
                     display = display.substring(0, display.length()-1) + "÷";
+                } else if (currNum.contains("E")) {
+                    equation += "))/";
+                    lastNum = currNum.substring(1);
+                    currNum = "";
+                    display += "÷";
                 } else {
                     equation += "/";
                     lastNum = currNum;
@@ -826,7 +846,14 @@ public class MainActivity extends ActionBarActivity {
             exp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainActivity.this, "Test!", Toast.LENGTH_SHORT).show();
+                    if (display.isEmpty());
+                    else if (Character.isDigit(display.charAt(display.length() - 1))) {
+                        equation = equation.substring(0, display.length() - currNum.length()) + "(" + currNum;
+                        lastNum = currNum;
+                        currNum = "E";
+                        equation += "*(10^";
+                        display += "E";
+                    }
                 }
             });
 
