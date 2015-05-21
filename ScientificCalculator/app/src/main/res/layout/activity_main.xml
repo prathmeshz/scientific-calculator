@@ -38,7 +38,7 @@
             android:scrollbars="none">
 
             <TextView
-                android:id="@+id/output_calc"
+                android:id="@+id/output_equation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -73,7 +73,7 @@
 
                 <Button
                     android:id="@+id/btn_clear"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -81,7 +81,7 @@
 
                 <Button
                     android:id="@+id/btn_paren_open"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -89,7 +89,7 @@
 
                 <Button
                     android:id="@+id/btn_7"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -97,7 +97,7 @@
 
                 <Button
                     android:id="@+id/btn_4"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -105,7 +105,7 @@
 
                 <Button
                     android:id="@+id/btn_1"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -113,7 +113,7 @@
 
                 <Button
                     android:id="@+id/btn_decimal"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -139,7 +139,7 @@
 
                 <Button
                     android:id="@+id/btn_backspace"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -147,7 +147,7 @@
 
                 <Button
                     android:id="@+id/btn_paren_close"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -155,7 +155,7 @@
 
                 <Button
                     android:id="@+id/btn_8"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -163,7 +163,7 @@
 
                 <Button
                     android:id="@+id/btn_5"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -171,7 +171,7 @@
 
                 <Button
                     android:id="@+id/btn_2"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -179,7 +179,7 @@
 
                 <Button
                     android:id="@+id/btn_0"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -204,7 +204,7 @@
 
                 <Button
                     android:id="@+id/btn_ans"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -212,7 +212,7 @@
 
                 <Button
                     android:id="@+id/btn_percent"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -220,7 +220,7 @@
 
                 <Button
                     android:id="@+id/btn_9"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -228,7 +228,7 @@
 
                 <Button
                     android:id="@+id/btn_6"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -236,7 +236,7 @@
 
                 <Button
                     android:id="@+id/btn_3"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -244,7 +244,7 @@
 
                 <Button
                     android:id="@+id/btn_int"
-                    style="@style/btn_nums"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -269,7 +269,7 @@
 
                 <Button
                     android:id="@+id/btn_div"
-                    style="@style/btn_operators"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -277,7 +277,7 @@
 
                 <Button
                     android:id="@+id/btn_mult"
-                    style="@style/btn_operators"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -285,7 +285,7 @@
 
                 <Button
                     android:id="@+id/btn_sub"
-                    style="@style/btn_operators"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -293,7 +293,7 @@
 
                 <Button
                     android:id="@+id/btn_add"
-                    style="@style/btn_operators"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -301,7 +301,7 @@
 
                 <Button
                     android:id="@+id/btn_equals"
-                    style="@style/btn_operators"
+                    style="@style/buttons"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

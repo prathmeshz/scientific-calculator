@@ -1,9 +1,7 @@
 package nyc.c4q.sufeiiz.scientificcalculator;
 
-import android.content.res.Configuration;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,12 +12,11 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    private TextView mainOutput, ansOutput;
+    private TextView outputEq, outputAns;
     private String equation, currNum, lastAns, lastNum, display;
     private int count;
     private boolean degMode = true;
@@ -29,11 +26,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainOutput = (TextView) findViewById(R.id.output_calc);
-        ansOutput = (TextView) findViewById(R.id.output_answer);
+        outputEq = (TextView) findViewById(R.id.output_equation);
+        outputAns = (TextView) findViewById(R.id.output_answer);
         if (savedInstanceState == null) {
-            mainOutput.setText("");
-            ansOutput.setText("");
+            outputEq.setText("");
+            outputAns.setText("");
             display = "";
             equation = "";
             currNum = "";
@@ -41,8 +38,8 @@ public class MainActivity extends ActionBarActivity {
             lastAns = "0";
             count = 0;
         } else {
-            ansOutput.setText(savedInstanceState.getString("lastAns"));
-            mainOutput.setText(savedInstanceState.getString("display"));
+            outputAns.setText(savedInstanceState.getString("lastAns"));
+            outputEq.setText(savedInstanceState.getString("display"));
             display = savedInstanceState.getString("display");
             equation = savedInstanceState.getString("equation");
             currNum = savedInstanceState.getString("currNum");
@@ -100,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
                 currNum += "0";
                 equation += "0";
                 display += "0";
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         one.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +111,7 @@ public class MainActivity extends ActionBarActivity {
                 currNum += "1";
                 equation += "1";
                 display += "1";
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         two.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +125,7 @@ public class MainActivity extends ActionBarActivity {
                 currNum += "2";
                 equation += "2";
                 display += "2";
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         three.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +139,7 @@ public class MainActivity extends ActionBarActivity {
                 currNum += "3";
                 equation += "3";
                 display += "3";
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         four.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +153,7 @@ public class MainActivity extends ActionBarActivity {
                 currNum += "4";
                 equation += "4";
                 display += "4";
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         five.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +167,7 @@ public class MainActivity extends ActionBarActivity {
                 currNum += "5";
                 equation += "5";
                 display += "5";
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         six.setOnClickListener(new View.OnClickListener() {
@@ -184,7 +181,7 @@ public class MainActivity extends ActionBarActivity {
                 currNum += "6";
                 equation += "6";
                 display += "6";
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         seven.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +195,7 @@ public class MainActivity extends ActionBarActivity {
                 currNum += "7";
                 equation += "7";
                 display += "7";
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         eight.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +209,7 @@ public class MainActivity extends ActionBarActivity {
                 currNum += "8";
                 equation += "8";
                 display += "8";
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         nine.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +223,7 @@ public class MainActivity extends ActionBarActivity {
                 currNum += "9";
                 equation += "9";
                 display += "9";
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
 
@@ -245,7 +242,7 @@ public class MainActivity extends ActionBarActivity {
                     currNum += ".";
                     display += ".";
                 }
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
 
@@ -258,8 +255,8 @@ public class MainActivity extends ActionBarActivity {
                 lastAns = "";
                 lastNum = "";
                 display = "";
-                ansOutput.setText("");
-                mainOutput.setText(display);
+                outputAns.setText("");
+                outputEq.setText(display);
             }
         });
 
@@ -301,7 +298,7 @@ public class MainActivity extends ActionBarActivity {
                     if (display.length() > 0)
                         display = display.substring(0, display.length() - 1);
                 }
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
 
@@ -326,7 +323,7 @@ public class MainActivity extends ActionBarActivity {
                     currNum = "";
                     display += "+";
                 }
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         minus.setOnClickListener(new View.OnClickListener() {
@@ -346,7 +343,7 @@ public class MainActivity extends ActionBarActivity {
                     currNum = "";
                     display += "-";
                 }
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         multiply.setOnClickListener(new View.OnClickListener() {
@@ -366,7 +363,7 @@ public class MainActivity extends ActionBarActivity {
                     currNum = "";
                     display += "×";
                 }
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
         divide.setOnClickListener(new View.OnClickListener() {
@@ -386,7 +383,7 @@ public class MainActivity extends ActionBarActivity {
                     currNum = "";
                     display += "÷";
                 }
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
 
@@ -405,7 +402,7 @@ public class MainActivity extends ActionBarActivity {
 
                     equation += converted;
                     display += "%";
-                    mainOutput.setText(display);
+                    outputEq.setText(display);
                 }
             }
         });
@@ -485,7 +482,7 @@ public class MainActivity extends ActionBarActivity {
                     equation += currNum;
                     display += currNum;
                 }
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
 
@@ -509,7 +506,7 @@ public class MainActivity extends ActionBarActivity {
                     equation += "(";
                 }
                 count++;
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
 
@@ -525,7 +522,7 @@ public class MainActivity extends ActionBarActivity {
                     equation += ")";
                     display += ")";
                     count--;
-                    mainOutput.setText(display);
+                    outputEq.setText(display);
                 }
             }
         });
@@ -548,7 +545,7 @@ public class MainActivity extends ActionBarActivity {
                     equation += lastAns;
                     display += "Ans";
                 }
-                mainOutput.setText(display);
+                outputEq.setText(display);
             }
         });
 
@@ -564,7 +561,7 @@ public class MainActivity extends ActionBarActivity {
                     }
                 }
                 if (equation.equals(""))
-                    mainOutput.setText("");
+                    outputEq.setText("");
                 else {
                     try {
                         BigDecimal answer = new Expression(equation).eval();
@@ -579,14 +576,14 @@ public class MainActivity extends ActionBarActivity {
                         currNum = "";
                         lastNum = "";
                         display = "";
-                        mainOutput.setText("Error");
+                        outputEq.setText("Error");
                     }
 
                     lastNum = "";
                     currNum = "";
                     equation = "";
                     display = "";
-                    ansOutput.setText(lastAns);
+                    outputAns.setText(lastAns);
                 }
             }
         });
@@ -622,13 +619,13 @@ public class MainActivity extends ActionBarActivity {
                             currNum = String.valueOf(Numbers.factorial(Integer.valueOf(currNum)));
                             equation += currNum;
                             display += "!";
-                            mainOutput.setText(display);
+                            outputEq.setText(display);
                         } catch (Exception e) {
                             equation = "";
                             currNum = "";
                             lastNum = "";
                             display = "";
-                            mainOutput.setText("Error");
+                            outputEq.setText("Error");
                         }
                     }
                 }
@@ -649,7 +646,7 @@ public class MainActivity extends ActionBarActivity {
                         equation += currNum;
                         display += "π";
                     }
-                    mainOutput.setText(display);
+                    outputEq.setText(display);
                 }
             });
             e.setOnClickListener(new View.OnClickListener() {
@@ -668,7 +665,7 @@ public class MainActivity extends ActionBarActivity {
                         equation += currNum;
                         display += "e";
                     }
-                    mainOutput.setText(display);
+                    outputEq.setText(display);
                 }
             });
 
@@ -704,7 +701,7 @@ public class MainActivity extends ActionBarActivity {
                         count++;
                     }
                     count++;
-                    mainOutput.setText(display);
+                    outputEq.setText(display);
                 }
             });
             cos.setOnClickListener(new View.OnClickListener() {
@@ -739,7 +736,7 @@ public class MainActivity extends ActionBarActivity {
                         count++;
                     }
                     count++;
-                    mainOutput.setText(display);
+                    outputEq.setText(display);
                 }
             });
             tan.setOnClickListener(new View.OnClickListener() {
@@ -774,7 +771,7 @@ public class MainActivity extends ActionBarActivity {
                         count++;
                     }
                     count++;
-                    mainOutput.setText(display);
+                    outputEq.setText(display);
                 }
             });
             ln.setOnClickListener(new View.OnClickListener() {
@@ -793,7 +790,7 @@ public class MainActivity extends ActionBarActivity {
                         display += "ln(";
                     }
                     count++;
-                    mainOutput.setText(display);
+                    outputEq.setText(display);
                 }
             });
             log.setOnClickListener(new View.OnClickListener() {
@@ -812,7 +809,7 @@ public class MainActivity extends ActionBarActivity {
                         display += "log(";
                     }
                     count++;
-                    mainOutput.setText(display);
+                    outputEq.setText(display);
                 }
             });
             sqRoot.setOnClickListener(new View.OnClickListener() {
@@ -831,7 +828,7 @@ public class MainActivity extends ActionBarActivity {
                         display += "√(";
                     }
                     count++;
-                    mainOutput.setText(display);
+                    outputEq.setText(display);
                 }
             });
 
@@ -860,7 +857,7 @@ public class MainActivity extends ActionBarActivity {
                         equation += "^";
                         display += "^";
                     }
-                    mainOutput.setText(display);
+                    outputEq.setText(display);
                 }
             });
         }
