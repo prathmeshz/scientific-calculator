@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <!-- Output -->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -14,42 +14,29 @@
         android:orientation="vertical"
         android:padding="15dp">
 
-        <!-- reconfig w/ weight if time allows -->
         <TextView
             android:id="@+id/output_answer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/scrollView"
-            android:layout_marginBottom="5dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:fontFamily="sans-serif-thin"
             android:gravity="right"
-            android:maxLines="1"
             android:text=""
             android:textColor="#ffff"
-            android:textSize="70sp" />
+            android:textSize="80sp" />
 
-        <HorizontalScrollView
-            android:id="@+id/scrollView"
+        <TextView
+            android:id="@+id/output_calc"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="5dp"
-            android:requiresFadingEdge="horizontal"
-            android:scrollbars="none">
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="right"
+            android:text=""
+            android:textColor="@color/primary_light"
+            android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/output_calc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:fontFamily="sans-serif-thin"
-                android:text=""
-                android:textColor="@color/primary_light"
-                android:textSize="26sp" />
-
-        </HorizontalScrollView>
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <!-- Container for buttons -->
     <LinearLayout
@@ -58,18 +45,19 @@
         android:layout_weight="2"
         android:orientation="horizontal">
 
-        <!-- Column 1 -->
+        <!-- Container for numbers -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_weight="3"
+            android:orientation="vertical">
 
+            <!-- Buttons misc -->
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_clear"
@@ -80,70 +68,37 @@
                     android:text="C" />
 
                 <Button
+                    android:id="@+id/btn_backspace"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="DEL" />
+
+                <Button
+                    android:id="@+id/btn_ans"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="ANS" />
+
+            </LinearLayout>
+
+            <!-- Buttons functions -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
                     android:id="@+id/btn_paren_open"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="(" />
-
-                <Button
-                    android:id="@+id/btn_7"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="7" />
-
-                <Button
-                    android:id="@+id/btn_4"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="4" />
-
-                <Button
-                    android:id="@+id/btn_1"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="1" />
-
-                <Button
-                    android:id="@+id/btn_decimal"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="." />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- Column 2 -->
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btn_backspace"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="CE" />
 
                 <Button
                     android:id="@+id/btn_paren_close"
@@ -154,12 +109,62 @@
                     android:text=")" />
 
                 <Button
+                    android:id="@+id/btn_percent"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="%" />
+
+            </LinearLayout>
+
+            <!-- Buttons 7 - 9 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_7"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="7" />
+
+                <Button
                     android:id="@+id/btn_8"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="8" />
+
+                <Button
+                    android:id="@+id/btn_9"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="9" />
+
+            </LinearLayout>
+
+            <!-- Buttons 4 - 6 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_4"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="4" />
 
                 <Button
                     android:id="@+id/btn_5"
@@ -170,12 +175,54 @@
                     android:text="5" />
 
                 <Button
+                    android:id="@+id/btn_6"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="6" />
+
+            </LinearLayout>
+
+            <!-- Buttons 1 - 3 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_1"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="1" />
+
+                <Button
                     android:id="@+id/btn_2"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="2" />
+
+                <Button
+                    android:id="@+id/btn_3"
+                    style="@style/btn_nums"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="3" />
+
+            </LinearLayout>
+
+            <!-- 0, . -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_0"
@@ -185,62 +232,13 @@
                     android:layout_weight="1"
                     android:text="0" />
 
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- Column 3 -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
                 <Button
-                    android:id="@+id/btn_ans"
+                    android:id="@+id/btn_decimal"
                     style="@style/btn_nums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Ans" />
-
-                <Button
-                    android:id="@+id/btn_percent"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="%" />
-
-                <Button
-                    android:id="@+id/btn_9"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="9" />
-
-                <Button
-                    android:id="@+id/btn_6"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="6" />
-
-                <Button
-                    android:id="@+id/btn_3"
-                    style="@style/btn_nums"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="3" />
+                    android:text="." />
 
                 <Button
                     android:id="@+id/btn_int"
@@ -254,13 +252,14 @@
 
         </LinearLayout>
 
-        <!-- Column 4 - Operators -->
+        <!-- Container for operators -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
 
+            <!-- Operators -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -268,20 +267,12 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btn_div"
+                    android:id="@+id/btn_add"
                     style="@style/btn_operators"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="÷" />
-
-                <Button
-                    android:id="@+id/btn_mult"
-                    style="@style/btn_operators"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="*" />
+                    android:text="+" />
 
                 <Button
                     android:id="@+id/btn_sub"
@@ -292,12 +283,20 @@
                     android:text="-" />
 
                 <Button
-                    android:id="@+id/btn_add"
+                    android:id="@+id/btn_mult"
                     style="@style/btn_operators"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="+" />
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/btn_div"
+                    style="@style/btn_operators"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="÷" />
 
                 <Button
                     android:id="@+id/btn_equals"

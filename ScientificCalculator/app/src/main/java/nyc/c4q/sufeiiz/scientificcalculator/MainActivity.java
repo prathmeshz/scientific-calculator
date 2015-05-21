@@ -1,12 +1,17 @@
 package nyc.c4q.sufeiiz.scientificcalculator;
 
+import android.content.res.Configuration;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -17,6 +22,7 @@ public class MainActivity extends ActionBarActivity {
     private TextView mainOutput, ansOutput;
     private String equation, currNum, lastAns, lastNum, display;
     private int count;
+    private boolean degMode = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
             equation = "";
             currNum = "";
             lastNum = "";
-            lastAns = "";
+            lastAns = "0";
             count = 0;
         } else {
             ansOutput.setText(savedInstanceState.getString("lastAns"));
@@ -69,12 +75,25 @@ public class MainActivity extends ActionBarActivity {
         final Button dot = (Button) findViewById(R.id.btn_decimal);
         final Button equal = (Button) findViewById(R.id.btn_equals);
 
+        // Scientific buttons
+        final Button factorial = (Button) findViewById(R.id.btn_factorial);
+        final Button pi = (Button) findViewById(R.id.btn_pi);
+        final Button e = (Button) findViewById(R.id.btn_e);
+        final Button sqRoot = (Button) findViewById(R.id.btn_sq_root);
+        final Button sq = (Button) findViewById(R.id.btn_sq);
+        final Button sin = (Button) findViewById(R.id.btn_sin);
+        final Button cos = (Button) findViewById(R.id.btn_cos);
+        final Button tan = (Button) findViewById(R.id.btn_tan);
+        final Button exp = (Button) findViewById(R.id.btn_exp);
+        final Button ln = (Button) findViewById(R.id.btn_ln);
+        final Button log = (Button) findViewById(R.id.btn_log);
+
         // Numbers OnClickListener
         zero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                if (display.isEmpty()) ;
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -87,8 +106,8 @@ public class MainActivity extends ActionBarActivity {
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                if (display.isEmpty()) ;
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -101,8 +120,8 @@ public class MainActivity extends ActionBarActivity {
         two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                if (display.isEmpty()) ;
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -115,8 +134,8 @@ public class MainActivity extends ActionBarActivity {
         three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                if (display.isEmpty()) ;
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -129,8 +148,8 @@ public class MainActivity extends ActionBarActivity {
         four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                if (display.isEmpty()) ;
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -143,8 +162,8 @@ public class MainActivity extends ActionBarActivity {
         five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                if (display.isEmpty()) ;
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -157,8 +176,8 @@ public class MainActivity extends ActionBarActivity {
         six.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                if (display.isEmpty()) ;
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -171,8 +190,8 @@ public class MainActivity extends ActionBarActivity {
         seven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                if (display.isEmpty()) ;
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -185,8 +204,8 @@ public class MainActivity extends ActionBarActivity {
         eight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                if (display.isEmpty()) ;
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -199,8 +218,8 @@ public class MainActivity extends ActionBarActivity {
         nine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (display.isEmpty());
-                else if (display.charAt(display.length() - 1) == 's') {
+                if (display.isEmpty()) ;
+                else if (Numbers.lastInputIsConstant(display)) {
                     equation += "*";
                     display += "×";
                 }
@@ -236,6 +255,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 equation = "";
                 currNum = "";
+                lastAns = "";
                 lastNum = "";
                 display = "";
                 ansOutput.setText("");
@@ -250,7 +270,7 @@ public class MainActivity extends ActionBarActivity {
         backspace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (equation.isEmpty());
+                if (equation.isEmpty()) ;
                 else if (display.charAt(display.length() - 1) == '%') {
                     display = display.substring(0, display.length() - 1); // removes "%"
 
@@ -258,13 +278,28 @@ public class MainActivity extends ActionBarActivity {
                     String converted = Numbers.percentage(currNum, lastNum);
                     equation = equation.substring(0, equation.length() - converted.length());
                     equation += currNum;
+                } else if (display.charAt(display.length() - 1) == '!') {
+                    display = display.substring(0, display.length() - 1); // removes "!"
+
+                    String converted = String.valueOf(Numbers.factorial(Integer.valueOf(currNum)));
+                    equation = equation.substring(0, equation.length() - converted.length());
+                    equation += currNum;
+                } else if (display.charAt(display.length() - 1) == 'e' ||
+                        display.charAt(display.length() - 1) == 'π') {
+                    equation = equation.substring(0, equation.length() - 13);
+                    currNum = "";
+                    display = display.substring(0, display.length() - 1);
+                } else if (display.charAt(display.length() - 1) == 's') {
+                    equation = equation.substring(0, equation.length() - currNum.length());
+                    currNum = "";
+                    display = display.substring(0, display.length() - 3);
                 } else {
                     if (currNum.length() > 0)
-                        currNum = currNum.substring(0, currNum.length()-1);
+                        currNum = currNum.substring(0, currNum.length() - 1);
                     if (equation.length() > 0)
-                        equation = equation.substring(0, equation.length()-1);
+                        equation = equation.substring(0, equation.length() - 1);
                     if (display.length() > 0)
-                        display = display.substring(0, display.length()-1);
+                        display = display.substring(0, display.length() - 1);
                 }
                 mainOutput.setText(display);
             }
@@ -281,10 +316,10 @@ public class MainActivity extends ActionBarActivity {
                     lastNum = lastAns;
                     equation = lastAns + "+";
                     display = lastAns + "+";
-                } else if (equation.isEmpty());
+                } else if (equation.isEmpty()) ;
                 else if (Numbers.lastInputIsOperator(equation)) {
-                    equation = equation.substring(0, equation.length()-1) + "+";
-                    display = display.substring(0, display.length()-1) + "+";
+                    equation = equation.substring(0, equation.length() - 1) + "+";
+                    display = display.substring(0, display.length() - 1) + "+";
                 } else {
                     equation += "+";
                     lastNum = currNum;
@@ -301,10 +336,10 @@ public class MainActivity extends ActionBarActivity {
                     lastNum = lastAns;
                     equation = lastAns + "-";
                     display = lastAns + "-";
-                } else if (equation.isEmpty());
+                } else if (equation.isEmpty()) ;
                 else if (Numbers.lastInputIsOperator(equation)) {
-                    equation = equation.substring(0, equation.length()-1) + "-";
-                    display = display.substring(0, display.length()-1) + "-";
+                    equation = equation.substring(0, equation.length() - 1) + "-";
+                    display = display.substring(0, display.length() - 1) + "-";
                 } else {
                     equation += "-";
                     lastNum = currNum;
@@ -321,10 +356,10 @@ public class MainActivity extends ActionBarActivity {
                     lastNum = lastAns;
                     equation = lastAns + "*";
                     display = lastAns + "×";
-                } else if (equation.isEmpty());
+                } else if (equation.isEmpty()) ;
                 else if (Numbers.lastInputIsOperator(equation)) {
-                    equation = equation.substring(0, equation.length()-1) + "*";
-                    display = display.substring(0, display.length()-1) + "×";
+                    equation = equation.substring(0, equation.length() - 1) + "*";
+                    display = display.substring(0, display.length() - 1) + "×";
                 } else {
                     equation += "*";
                     lastNum = currNum;
@@ -341,10 +376,10 @@ public class MainActivity extends ActionBarActivity {
                     lastNum = lastAns;
                     equation = lastAns + "/";
                     display = lastAns + "÷";
-                } else if (equation.isEmpty());
+                } else if (equation.isEmpty()) ;
                 else if (Numbers.lastInputIsOperator(equation)) {
-                    equation = equation.substring(0, equation.length()-1) + "/";
-                    display = display.substring(0, display.length()-1) + "÷";
+                    equation = equation.substring(0, equation.length() - 1) + "/";
+                    display = display.substring(0, display.length() - 1) + "÷";
                 } else {
                     equation += "/";
                     lastNum = currNum;
@@ -361,9 +396,9 @@ public class MainActivity extends ActionBarActivity {
         percent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (equation.isEmpty());
+                if (equation.isEmpty()) ;
                 else if (Numbers.lastInputIsOperator(equation) ||
-                        Numbers.lastInputIsPercent(equation));
+                        Numbers.lastInputIsPercent(equation)) ;
                 else {
                     equation = equation.substring(0, equation.length() - currNum.length());
                     String converted = Numbers.percentage(currNum, lastNum);
@@ -377,6 +412,8 @@ public class MainActivity extends ActionBarActivity {
 
         // if equation is empty, add - accordingly
         // else if last input was %, find length of converted number and add - accordingly
+        // else if last input was e or pi, find length of converted number and add - accordingly
+        // else if last input was ans, find length of converted number and add - accordingly
         // else add - accordingly
         negative.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -400,6 +437,40 @@ public class MainActivity extends ActionBarActivity {
                         currNum = "-" + currNum;
                         display += currNum + "%";
                         equation += "-" + converted;
+                    }
+                } else if (display.charAt(display.length() - 1) == 'e' ||
+                        display.charAt(display.length() - 1) == 'π') {
+                    char constant = display.charAt(display.length() - 1);
+                    if (currNum.contains("-")) {
+                        currNum = currNum.substring(1);
+                        equation = equation.substring(0, equation.length() - 14) + currNum;
+                        display = display.substring(0, display.length() - 2) + constant;
+                    } else {
+                        currNum = "-" + currNum;
+                        equation = equation.substring(0, equation.length() - 13) + "-" + currNum;
+                        display = display.substring(0, display.length() - 1) + "-" + constant;
+                    }
+                } else if (display.charAt(display.length() - 1) == 's') {
+                    if (currNum.equals("0")) {
+                        display = display.substring(0, display.length() - 3) + "-" + "Ans";
+                    } else if (currNum.contains("-")) {
+                        currNum = currNum.substring(1);
+                        equation = equation.substring(0, equation.length() - currNum.length() - 1) + currNum;
+                        display = display.substring(0, display.length() - 4) + "Ans";
+                    } else {
+                        currNum = "-" + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length()) + "-" + currNum;
+                        display = display.substring(0, display.length() - 3) + "-" + "Ans";
+                    }
+                } else if (display.charAt(display.length() - 1) == '^') {
+                    if (currNum.contains("-")) {
+                        currNum = currNum.substring(1);
+                        display = display.substring(0, display.length() - currNum.length() - 1) + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length() - 1) + currNum;
+                    } else {
+                        currNum = "-" + currNum;
+                        display = display.substring(0, display.length() - currNum.length() + 1) + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length() + 1) + currNum;
                     }
                 } else {
                     if (currNum.contains("-")) {
@@ -429,7 +500,8 @@ public class MainActivity extends ActionBarActivity {
                     equation += "(";
                     display += "(";
                 } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                        equation.charAt(equation.length() - 1) == ')') {
+                        equation.charAt(equation.length() - 1) == ')' ||
+                        Numbers.lastInputIsConstant(display)) {
                     equation += "*(";
                     display += "×(";
                 } else {
@@ -448,7 +520,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (equation.isEmpty() || count <= 0 ||
-                        Numbers.lastInputIsOperator(equation));
+                        Numbers.lastInputIsOperator(equation)) ;
                 else {
                     equation += ")";
                     display += ")";
@@ -464,8 +536,18 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 lastNum = currNum;
                 currNum = lastAns;
-                equation += lastAns;
-                display += "Ans";
+                if (lastAns.isEmpty()) ;
+                else if (display.isEmpty()) {
+                    equation += lastAns;
+                    display += "Ans";
+                } else if (Numbers.lastInputIsConstant(display) ||
+                        Character.isDigit(display.charAt(display.length() - 1))) {
+                    equation += "*" + lastAns;
+                    display += "×Ans";
+                } else {
+                    equation += lastAns;
+                    display += "Ans";
+                }
                 mainOutput.setText(display);
             }
         });
@@ -483,19 +565,22 @@ public class MainActivity extends ActionBarActivity {
                 }
                 if (equation.equals(""))
                     mainOutput.setText("");
-                else if (Numbers.lastInputIsOperator(equation)) {
-                    equation = "";
-                    currNum = "";
-                    lastNum = "";
-                    display = "";
-                    mainOutput.setText("Error");
-                } else {
-                    BigDecimal answer = new Expression(equation).eval();
-                    lastAns = String.valueOf(answer.doubleValue());
+                else {
+                    try {
+                        BigDecimal answer = new Expression(equation).eval();
 
-                    // returns long if answer is a whole number, otherwise return double
-                    if (lastAns.substring(lastAns.length() - 2).equals(".0"))
-                        lastAns = String.valueOf(answer.longValue());
+                        lastAns = String.valueOf(answer.doubleValue());
+
+                        // returns long if answer is a whole number, otherwise return double
+                        if (lastAns.substring(lastAns.length() - 2).equals(".0"))
+                            lastAns = String.valueOf(answer.longValue());
+                    } catch (Exception e) {
+                        equation = "";
+                        currNum = "";
+                        lastNum = "";
+                        display = "";
+                        mainOutput.setText("Error");
+                    }
 
                     lastNum = "";
                     currNum = "";
@@ -505,6 +590,280 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
+
+        // Scientific calculator
+        if (log != null) {
+
+            // Toggle radians/degrees
+            ToggleButton toggle = (ToggleButton) findViewById(R.id.btn_rad);
+            toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        Toast.makeText(MainActivity.this, "Radians mode on", Toast.LENGTH_SHORT).show();
+                        degMode = false;
+                    } else {
+                        Toast.makeText(MainActivity.this, "Degrees mode on", Toast.LENGTH_SHORT).show();
+                        degMode = true;
+                    }
+                }
+            });
+
+            // if equation if empty, ignore
+            // else last operator was an operator, ignore
+            // else try factorial calculation, catch error
+            factorial.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (equation.isEmpty()) ;
+                    else if (Numbers.lastInputIsOperator(equation)) ;
+                    else {
+                        try {
+                            equation = equation.substring(0, equation.length() - currNum.length());
+                            currNum = String.valueOf(Numbers.factorial(Integer.valueOf(currNum)));
+                            equation += currNum;
+                            display += "!";
+                            mainOutput.setText(display);
+                        } catch (Exception e) {
+                            equation = "";
+                            currNum = "";
+                            lastNum = "";
+                            display = "";
+                            mainOutput.setText("Error");
+                        }
+                    }
+                }
+            });
+            pi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currNum = String.valueOf(3.14159265359);
+                    if (display.isEmpty()) {
+                        equation += currNum;
+                        display += "π";
+                    } else if (Numbers.lastInputIsConstant(display) ||
+                            Character.isDigit(display.charAt(display.length() - 1)) ||
+                            display.charAt(display.length() - 1) == ')') {
+                        equation += "*" + currNum;
+                        display += "×π";
+                    } else {
+                        equation += currNum;
+                        display += "π";
+                    }
+                    mainOutput.setText(display);
+                }
+            });
+            e.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currNum = String.valueOf(2.71828182846);
+                    if (display.isEmpty()) {
+                        equation += currNum;
+                        display += "e";
+                    } else if (Numbers.lastInputIsConstant(display) ||
+                            Character.isDigit(display.charAt(display.length() - 1)) ||
+                            display.charAt(display.length() - 1) == ')') {
+                        equation += "*" + currNum;
+                        display += "×e";
+                    } else {
+                        equation += currNum;
+                        display += "e";
+                    }
+                    mainOutput.setText(display);
+                }
+            });
+
+            sin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (degMode) {
+                        if (equation.isEmpty()) {
+                            equation += "SIN(";
+                            display += "sin(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*SIN(";
+                            display += "×sin(";
+                        } else {
+                            equation += "SIN(";
+                            display += "sin(";
+                        }
+                    } else {
+                        if (equation.isEmpty()) {
+                            equation += "RAD(SIN(";
+                            display += "sin(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*RAD(SIN(";
+                            display += "×sin(";
+                        } else {
+                            equation += "RAD(SIN(";
+                            display += "sin(";
+                        }
+                        count++;
+                    }
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            cos.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (degMode) {
+                        if (equation.isEmpty()) {
+                            equation += "COS(";
+                            display += "cos(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*COS(";
+                            display += "×cos(";
+                        } else {
+                            equation += "COS(";
+                            display += "cos(";
+                        }
+                    } else {
+                        if (equation.isEmpty()) {
+                            equation += "RAD(COS(";
+                            display += "cos(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*RAD(COS(";
+                            display += "×cos(";
+                        } else {
+                            equation += "RAD(COS(";
+                            display += "cos(";
+                        }
+                        count++;
+                    }
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            tan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (degMode) {
+                        if (equation.isEmpty()) {
+                            equation += "TAN(";
+                            display += "tan(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*TAN(";
+                            display += "×tan(";
+                        } else {
+                            equation += "TAN(";
+                            display += "tan(";
+                        }
+                    } else {
+                        if (equation.isEmpty()) {
+                            equation += "RAD(TAN(";
+                            display += "tan(";
+                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                                equation.charAt(equation.length() - 1) == ')' ||
+                                Numbers.lastInputIsConstant(display)) {
+                            equation += "*RAD(TAN(";
+                            display += "×tan(";
+                        } else {
+                            equation += "RAD(TAN(";
+                            display += "tan(";
+                        }
+                        count++;
+                    }
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            ln.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (equation.isEmpty()) {
+                        equation += "LOG(";
+                        display += "ln(";
+                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                            equation.charAt(equation.length() - 1) == ')' ||
+                            Numbers.lastInputIsConstant(display)) {
+                        equation += "*LOG(";
+                        display += "×ln(";
+                    } else {
+                        equation += "LOG(";
+                        display += "ln(";
+                    }
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            log.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (equation.isEmpty()) {
+                        equation += "LOG10(";
+                        display += "log(";
+                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                            equation.charAt(equation.length() - 1) == ')' ||
+                            Numbers.lastInputIsConstant(display)) {
+                        equation += "*LOG10(";
+                        display += "×log(";
+                    } else {
+                        equation += "LOG10(";
+                        display += "log(";
+                    }
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+            sqRoot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (equation.isEmpty()) {
+                        equation += "SQRT(";
+                        display += "√(";
+                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                            equation.charAt(equation.length() - 1) == ')' ||
+                            Numbers.lastInputIsConstant(display)) {
+                        equation += "*SQRT(";
+                        display += "×√(";
+                    } else {
+                        equation += "SQRT(";
+                        display += "√(";
+                    }
+                    count++;
+                    mainOutput.setText(display);
+                }
+            });
+
+            exp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (display.isEmpty()) ;
+                    else if (Character.isDigit(display.charAt(display.length() - 1))) {
+                        equation = equation.substring(0, display.length() - currNum.length()) + "(" + currNum;
+                        lastNum = currNum;
+                        currNum = "E";
+                        equation += "*(10^";
+                        display += "E";
+                    }
+                }
+            });
+
+            sq.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (equation.isEmpty() ||
+                            equation.charAt(equation.length() - 1) == '(') ;
+                    else {
+                        lastNum = currNum;
+                        currNum = "";
+                        equation += "^";
+                        display += "^";
+                    }
+                    mainOutput.setText(display);
+                }
+            });
+        }
     }
 
     @Override

@@ -36,6 +36,12 @@ public class Numbers extends MainActivity{
         return display.charAt(display.length() - 1) == '%';
     }
 
+    public static boolean lastInputIsConstant(String display) {
+        return display.charAt(display.length() - 1) == 's' ||
+                display.charAt(display.length() - 1) == 'π' ||
+                display.charAt(display.length() - 1) == 'e';
+    }
+
     // returns factorial answer
     static boolean negative = false;
     public static double factorial(int x) {
