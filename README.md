@@ -1,5 +1,7 @@
 ## scientific-calculator
-https://github.com/accesscode-2-1/unit-1/blob/master/project/requirements.md
+Made by Sufei Zhao and Jaellys Bales for Access Code 2.1 at [C4Q] (http://www.c4q.nyc/).
+
+Project requirements: https://github.com/accesscode-2-1/unit-1/blob/master/project/requirements.md
 
 ## Code Structure
 
