@@ -44,7 +44,7 @@ public class Numbers extends MainActivity{
 
     // returns factorial answer
     static boolean negative = false;
-    public static double factorial(int x) {
+    public static long factorial(int x) {
         if (x < 0) {
             x *= -1;
             negative = true;

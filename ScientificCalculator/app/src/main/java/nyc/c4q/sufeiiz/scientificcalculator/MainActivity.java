@@ -260,14 +260,13 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        // TODO fix backspace for sincostan once that's implemented
         // if equation is empty, do nothing
         // else if the last input was %, convert to decimal to find length of converted num
         // else delete last char in currNum, equation, and display
         backspace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (equation.isEmpty()) ;
+                if (equation.isEmpty() || display.isEmpty()) ;
                 else if (display.charAt(display.length() - 1) == '%') {
                     display = display.substring(0, display.length() - 1); // removes "%"
 
@@ -290,6 +289,19 @@ public class MainActivity extends ActionBarActivity {
                     equation = equation.substring(0, equation.length() - currNum.length());
                     currNum = "";
                     display = display.substring(0, display.length() - 3);
+                } else if (display.endsWith("sin(") || display.endsWith("cos(") ||
+                        display.endsWith("tan(") || display.endsWith("log(")) {
+                    equation = equation.substring(0, equation.length() - 4);
+                    display = display.substring(0, display.length() - 4);
+                    count--;
+                } else if (display.endsWith("ln(")) {
+                    equation = equation.substring(0, equation.length() - 3);
+                    display = display.substring(0, display.length() - 3);
+                    count--;
+                } else if (display.endsWith(")")) {
+                    equation = equation.substring(0, equation.length() - 1);
+                    display = display.substring(0, display.length() - 1);
+                    count++;
                 } else {
                     if (currNum.length() > 0)
                         currNum = currNum.substring(0, currNum.length() - 1);
@@ -433,6 +445,19 @@ public class MainActivity extends ActionBarActivity {
                     } else {
                         currNum = "-" + currNum;
                         display += currNum + "%";
+                        equation += "-" + converted;
+                    }
+                } else if (display.charAt(display.length() - 1) == '!') {
+                    String converted = String.valueOf(Numbers.factorial(Integer.valueOf(currNum)));
+                    display = display.substring(0, display.length() - currNum.length() - 1);
+                    equation = equation.substring(0, equation.length() - converted.length());
+                    if (currNum.contains("-")) {
+                        currNum = currNum.substring(1);
+                        display += currNum + "!";
+                        equation += converted.substring(1);
+                    } else {
+                        currNum = "-" + currNum;
+                        display += currNum + "!";
                         equation += "-" + converted;
                     }
                 } else if (display.charAt(display.length() - 1) == 'e' ||
@@ -621,8 +646,7 @@ public class MainActivity extends ActionBarActivity {
                     else {
                         try {
                             equation = equation.substring(0, equation.length() - currNum.length());
-                            currNum = String.valueOf(Numbers.factorial(Integer.valueOf(currNum)));
-                            equation += currNum;
+                            equation += String.valueOf(Numbers.factorial(Integer.valueOf(currNum)));
                             display += "!";
                             outputEq.setText(display);
                         } catch (Exception e) {
