@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 
 public class MainActivity extends ActionBarActivity {
 
-    private TextView outputEq, outputAns;
+    private TextView outputEq, outputAns, mode;
     private String equation, currNum, lastAns, lastNum, display;
     private int count;
     private boolean degMode = true;
@@ -444,7 +444,7 @@ public class MainActivity extends ActionBarActivity {
                         display = display.substring(0, display.length() - 2) + constant;
                     } else {
                         currNum = "-" + currNum;
-                        equation = equation.substring(0, equation.length() - 13) + "-" + currNum;
+                        equation = equation.substring(0, equation.length() - 13) + currNum;
                         display = display.substring(0, display.length() - 1) + "-" + constant;
                     }
                 } else if (display.charAt(display.length() - 1) == 's') {
@@ -456,7 +456,7 @@ public class MainActivity extends ActionBarActivity {
                         display = display.substring(0, display.length() - 4) + "Ans";
                     } else {
                         currNum = "-" + currNum;
-                        equation = equation.substring(0, equation.length() - currNum.length()) + "-" + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length() + 1) + currNum;
                         display = display.substring(0, display.length() - 3) + "-" + "Ans";
                     }
                 } else if (display.charAt(display.length() - 1) == '^') {
@@ -593,13 +593,18 @@ public class MainActivity extends ActionBarActivity {
 
             // Toggle radians/degrees
             ToggleButton toggle = (ToggleButton) findViewById(R.id.btn_rad);
+            mode = (TextView) findViewById(R.id.mode);
+            mode.setText("Deg");
             toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         Toast.makeText(MainActivity.this, "Radians mode on", Toast.LENGTH_SHORT).show();
+                        mode.setText("Rad");
                         degMode = false;
+
                     } else {
                         Toast.makeText(MainActivity.this, "Degrees mode on", Toast.LENGTH_SHORT).show();
+                        mode.setText("Deg");
                         degMode = true;
                     }
                 }
@@ -837,12 +842,14 @@ public class MainActivity extends ActionBarActivity {
                 public void onClick(View v) {
                     if (display.isEmpty()) ;
                     else if (Character.isDigit(display.charAt(display.length() - 1))) {
-                        equation = equation.substring(0, display.length() - currNum.length()) + "(" + currNum;
+                        equation = equation.substring(0, display.length() - currNum.length()) + currNum;
                         lastNum = currNum;
                         currNum = "E";
                         equation += "*(10^";
                         display += "E";
+                        count++;
                     }
+                    outputEq.setText(display);
                 }
             });
 
