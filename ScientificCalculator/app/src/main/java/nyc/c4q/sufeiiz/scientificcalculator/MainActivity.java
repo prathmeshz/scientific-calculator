@@ -614,12 +614,10 @@ public class MainActivity extends ActionBarActivity {
                         BigDecimal answer = new Expression(equation).eval();
 
                         lastAns = String.valueOf(answer.doubleValue());
-                        Toast.makeText(getApplicationContext(), equation, Toast.LENGTH_LONG).show();
                         // returns long if answer is a whole number, otherwise return double
                         if (lastAns.substring(lastAns.length() - 2).equals(".0"))
                             lastAns = String.valueOf(answer.longValue());
                     } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), equation, Toast.LENGTH_LONG).show();
 
                         equation = "";
                         currNum = "";
