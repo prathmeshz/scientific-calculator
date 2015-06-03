@@ -255,6 +255,7 @@ public class MainActivity extends ActionBarActivity {
                 lastAns = "";
                 lastNum = "";
                 display = "";
+                count = 0;
                 outputAns.setText("");
                 outputEq.setText(display);
             }
@@ -494,6 +495,16 @@ public class MainActivity extends ActionBarActivity {
                         display = display.substring(0, display.length() - currNum.length() + 1) + currNum;
                         equation = equation.substring(0, equation.length() - currNum.length() + 1) + currNum;
                     }
+                } else if (display.charAt(display.length() - 1) == '^') {
+                    if (currNum.contains("-")) {
+                        currNum = currNum.substring(1);
+                        display = display.substring(0, display.length() - currNum.length() - 1) + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length() - 1) + currNum;
+                    } else {
+                        currNum = "-" + currNum;
+                        display = display.substring(0, display.length() - currNum.length() + 1) + currNum;
+                        equation = equation.substring(0, equation.length() - currNum.length() + 1) + currNum;
+                    }
                 } else {
                     if (currNum.contains("-")) {
                         equation = equation.substring(0, equation.length() - currNum.length());
@@ -530,6 +541,8 @@ public class MainActivity extends ActionBarActivity {
                     display += "(";
                     equation += "(";
                 }
+                lastAns = currNum;
+                currNum = "";
                 count++;
                 outputEq.setText(display);
             }
@@ -546,6 +559,8 @@ public class MainActivity extends ActionBarActivity {
                 else {
                     equation += ")";
                     display += ")";
+                    lastAns = currNum;
+                    currNum = "";
                     count--;
                     outputEq.setText(display);
                 }
@@ -587,9 +602,10 @@ public class MainActivity extends ActionBarActivity {
                 }
                 if (equation.startsWith("-LOG") || equation.startsWith("-LOG10") ||
                         equation.startsWith("-SIN") || equation.startsWith("-COS") ||
-                        equation.startsWith("-TAN")) {
+                        equation.startsWith("-TAN"))
                     equation = 0 + equation;
-                }
+                if (display.endsWith("E"))
+                    equation = equation.substring(0, equation.length() - 6);
 
                 if (equation.equals(""))
                     outputEq.setText("");
@@ -609,6 +625,7 @@ public class MainActivity extends ActionBarActivity {
                         currNum = "";
                         lastNum = "";
                         display = "";
+                        count = 0;
                         outputEq.setText("Error");
                     }
 
@@ -616,6 +633,7 @@ public class MainActivity extends ActionBarActivity {
                     currNum = "";
                     equation = "";
                     display = "";
+                    count = 0;
                     outputAns.setText(lastAns);
                 }
             }
@@ -631,12 +649,9 @@ public class MainActivity extends ActionBarActivity {
             toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        Toast.makeText(MainActivity.this, "Radians mode on", Toast.LENGTH_SHORT).show();
                         mode.setText("Rad");
                         degMode = false;
-
                     } else {
-                        Toast.makeText(MainActivity.this, "Degrees mode on", Toast.LENGTH_SHORT).show();
                         mode.setText("Deg");
                         degMode = true;
                     }
@@ -876,12 +891,14 @@ public class MainActivity extends ActionBarActivity {
                     else if (Character.isDigit(display.charAt(display.length() - 1))) {
                         equation = equation.substring(0, display.length() - currNum.length()) + currNum;
                         lastNum = currNum;
-                        currNum = "E";
+                        currNum = "";
                         equation += "*(10^";
                         display += "E";
                         count++;
                     }
                     outputEq.setText(display);
+
+                    //2*(10^5)
                 }
             });
 
