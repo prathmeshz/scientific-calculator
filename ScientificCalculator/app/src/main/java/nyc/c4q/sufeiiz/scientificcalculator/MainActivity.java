@@ -407,7 +407,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (equation.isEmpty()) ;
                 else if (Numbers.lastInputIsOperator(equation) ||
-                        equation.charAt(equation.length() - 1) == '%');
+                        display.charAt(display.length() - 1) == '%');
                 else {
                     equation = equation.substring(0, equation.length() - currNum.length());
                     String converted = Numbers.percentage(currNum, lastNum);
@@ -585,6 +585,12 @@ public class MainActivity extends ActionBarActivity {
                         equation += ")";
                     }
                 }
+                if (equation.startsWith("-LOG") || equation.startsWith("-LOG10") ||
+                        equation.startsWith("-SIN") || equation.startsWith("-COS") ||
+                        equation.startsWith("-TAN")) {
+                    equation = 0 + equation;
+                }
+
                 if (equation.equals(""))
                     outputEq.setText("");
                 else {
@@ -592,11 +598,13 @@ public class MainActivity extends ActionBarActivity {
                         BigDecimal answer = new Expression(equation).eval();
 
                         lastAns = String.valueOf(answer.doubleValue());
-
+                        Toast.makeText(getApplicationContext(), equation, Toast.LENGTH_LONG).show();
                         // returns long if answer is a whole number, otherwise return double
                         if (lastAns.substring(lastAns.length() - 2).equals(".0"))
                             lastAns = String.valueOf(answer.longValue());
                     } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), equation, Toast.LENGTH_LONG).show();
+
                         equation = "";
                         currNum = "";
                         lastNum = "";
@@ -806,7 +814,7 @@ public class MainActivity extends ActionBarActivity {
             ln.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (equation.isEmpty()) {
+                    if (equation.isEmpty() || display.isEmpty()) {
                         equation += "LOG(";
                         display += "ln(";
                     } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
