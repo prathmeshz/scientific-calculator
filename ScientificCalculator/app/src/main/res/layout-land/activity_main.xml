@@ -16,6 +16,17 @@
 
         <!-- reconfig w/ weight if time allows -->
         <TextView
+            android:id="@+id/mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/output_answer"
+            android:text=""
+            android:textAllCaps="true"
+            android:textColor="@color/primary_light"
+            android:textSize="14dp" />
+
+        <TextView
             android:id="@+id/output_answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +36,7 @@
             android:maxLines="1"
             android:text=""
             android:textColor="#ffff"
-            android:textSize="50sp" />
+            android:textSize="48dp" />
 
         <HorizontalScrollView
             android:id="@+id/scrollView"
@@ -43,9 +54,10 @@
                 android:fontFamily="sans-serif-thin"
                 android:text=""
                 android:textColor="@color/primary_light"
-                android:textSize="26sp" />
+                android:textSize="24dp" />
 
         </HorizontalScrollView>
+
 
     </RelativeLayout>
 

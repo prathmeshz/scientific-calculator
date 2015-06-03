@@ -26,7 +26,7 @@
             android:maxLines="1"
             android:text=""
             android:textColor="#ffff"
-            android:textSize="70sp" />
+            android:textSize="70dp" />
 
         <HorizontalScrollView
             android:id="@+id/scrollView"
@@ -45,7 +45,7 @@
                 android:fontFamily="sans-serif-thin"
                 android:text=""
                 android:textColor="@color/primary_light"
-                android:textSize="26sp" />
+                android:textSize="26dp" />
 
         </HorizontalScrollView>
 
