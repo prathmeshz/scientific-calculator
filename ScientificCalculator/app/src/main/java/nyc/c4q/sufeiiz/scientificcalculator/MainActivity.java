@@ -395,7 +395,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (equation.isEmpty()) ;
                 else if (Numbers.lastInputIsOperator(equation) ||
-                        Numbers.lastInputIsPercent(equation)) ;
+                        equation.charAt(equation.length() - 1) == '%');
                 else {
                     equation = equation.substring(0, equation.length() - currNum.length());
                     String converted = Numbers.percentage(currNum, lastNum);
