@@ -42,6 +42,12 @@ public class Numbers extends MainActivity{
                 display.charAt(display.length() - 1) == 'e';
     }
 
+    public static boolean lastInputIsFunction(String display) {
+        return display.charAt(display.length() - 1) == 'E' ||
+                display.charAt(display.length() - 1) == '^' ||
+                display.charAt(display.length() - 1) == '%';
+    }
+
     // returns factorial answer
     static boolean negative = false;
     public static long factorial(int x) {

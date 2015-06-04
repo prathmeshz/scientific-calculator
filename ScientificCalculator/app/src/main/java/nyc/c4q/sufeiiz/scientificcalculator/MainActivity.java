@@ -233,14 +233,20 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (currNum.contains(".")) ;
-                else if (currNum.equals("")) {
+                else if (equation.isEmpty()) {
                     currNum += "0.";
                     equation += "0.";
                     display += "0.";
                 } else {
-                    equation += ".";
-                    currNum += ".";
-                    display += ".";
+                    if (currNum.equals("") || Numbers.lastInputIsOperator(equation)) {
+                        currNum += "0.";
+                        equation += "0.";
+                        display += "0.";
+                    } else {
+                        equation += ".";
+                        currNum += ".";
+                        display += ".";
+                    }
                 }
                 outputEq.setText(display);
             }
@@ -326,7 +332,10 @@ public class MainActivity extends ActionBarActivity {
                     lastNum = lastAns;
                     equation = lastAns + "+";
                     display = lastAns + "+";
-                } else if (equation.isEmpty()) ;
+                } else if (equation.isEmpty() || equation.endsWith("LOG(") ||
+                        equation.endsWith("LOG10(") || equation.endsWith("SIN(") ||
+                        equation.endsWith("COS(") || equation.endsWith("TAN(") ||
+                        equation.endsWith("^")) ;
                 else if (Numbers.lastInputIsOperator(equation)) {
                     equation = equation.substring(0, equation.length() - 1) + "+";
                     display = display.substring(0, display.length() - 1) + "+";
@@ -346,7 +355,10 @@ public class MainActivity extends ActionBarActivity {
                     lastNum = lastAns;
                     equation = lastAns + "-";
                     display = lastAns + "-";
-                } else if (equation.isEmpty()) ;
+                } else if (equation.isEmpty() || equation.endsWith("LOG(") ||
+                        equation.endsWith("LOG10(") ||equation.endsWith("SIN(") ||
+                        equation.endsWith("COS(") ||equation.endsWith("TAN(") ||
+                        equation.endsWith("^")) ;
                 else if (Numbers.lastInputIsOperator(equation)) {
                     equation = equation.substring(0, equation.length() - 1) + "-";
                     display = display.substring(0, display.length() - 1) + "-";
@@ -366,7 +378,10 @@ public class MainActivity extends ActionBarActivity {
                     lastNum = lastAns;
                     equation = lastAns + "*";
                     display = lastAns + "×";
-                } else if (equation.isEmpty()) ;
+                } else if (equation.isEmpty() || equation.endsWith("LOG(") ||
+                        equation.endsWith("LOG10(") ||equation.endsWith("SIN(") ||
+                        equation.endsWith("COS(") ||equation.endsWith("TAN(") ||
+                        equation.endsWith("^")) ;
                 else if (Numbers.lastInputIsOperator(equation)) {
                     equation = equation.substring(0, equation.length() - 1) + "*";
                     display = display.substring(0, display.length() - 1) + "×";
@@ -386,7 +401,10 @@ public class MainActivity extends ActionBarActivity {
                     lastNum = lastAns;
                     equation = lastAns + "/";
                     display = lastAns + "÷";
-                } else if (equation.isEmpty()) ;
+                } else if (equation.isEmpty() || equation.endsWith("LOG(") ||
+                        equation.endsWith("LOG10(") ||equation.endsWith("SIN(") ||
+                        equation.endsWith("COS(") ||equation.endsWith("TAN(") ||
+                        equation.endsWith("^")) ;
                 else if (Numbers.lastInputIsOperator(equation)) {
                     equation = equation.substring(0, equation.length() - 1) + "/";
                     display = display.substring(0, display.length() - 1) + "÷";
@@ -407,6 +425,8 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (equation.isEmpty()) ;
+                else if (display.charAt(display.length() - 1) == 'E' ||
+                        display.charAt(display.length() - 1) == '^') ;
                 else if (Numbers.lastInputIsOperator(equation) ||
                         display.charAt(display.length() - 1) == '%');
                 else {
@@ -609,7 +629,14 @@ public class MainActivity extends ActionBarActivity {
 
                 if (equation.equals(""))
                     outputEq.setText("");
-                else {
+                else if (equation.contains("infinity")) {
+                    lastNum = "";
+                    currNum = "";
+                    equation = "";
+                    display = "";
+                    count = 0;
+                    outputEq.setText("Infinity");
+                } else {
                     try {
                         BigDecimal answer = new Expression(equation).eval();
 
@@ -618,7 +645,6 @@ public class MainActivity extends ActionBarActivity {
                         if (lastAns.substring(lastAns.length() - 2).equals(".0"))
                             lastAns = String.valueOf(answer.longValue());
                     } catch (Exception e) {
-
                         equation = "";
                         currNum = "";
                         lastNum = "";
@@ -626,7 +652,6 @@ public class MainActivity extends ActionBarActivity {
                         count = 0;
                         outputEq.setText("Error");
                     }
-
                     lastNum = "";
                     currNum = "";
                     equation = "";
@@ -663,11 +688,19 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     if (equation.isEmpty()) ;
-                    else if (Numbers.lastInputIsOperator(equation)) ;
+                    else if (Numbers.lastInputIsOperator(equation) ||
+                            Numbers.lastInputIsFunction(display)) ;
                     else {
+                        if (currNum.endsWith(".")) {
+                            currNum = currNum.substring(0, currNum.length() - 1);
+                            equation = equation.substring(0, equation.length() - 1);
+                        }
                         try {
                             equation = equation.substring(0, equation.length() - currNum.length());
-                            equation += String.valueOf(Numbers.factorial(Integer.valueOf(currNum)));
+                            if (Numbers.factorial(Integer.valueOf(currNum)) == 0)
+                                equation += "infinity";
+                            else
+                                equation += String.valueOf(Numbers.factorial(Integer.valueOf(currNum)));
                             display += "!";
                             outputEq.setText(display);
                         } catch (Exception e) {
@@ -726,7 +759,10 @@ public class MainActivity extends ActionBarActivity {
                         if (equation.isEmpty()) {
                             equation += "SIN(";
                             display += "sin(";
-                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                        } else if (display.charAt(display.length() - 1) == 'E' ||
+                                display.charAt(display.length() - 1) == '^' ||
+                                display.charAt(display.length() - 1) == '.') ;
+                        else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                                 equation.charAt(equation.length() - 1) == ')' ||
                                 Numbers.lastInputIsConstant(display)) {
                             equation += "*SIN(";
@@ -739,7 +775,10 @@ public class MainActivity extends ActionBarActivity {
                         if (equation.isEmpty()) {
                             equation += "RAD(SIN(";
                             display += "sin(";
-                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                        }  else if (display.charAt(display.length() - 1) == 'E' ||
+                                display.charAt(display.length() - 1) == '^' ||
+                                display.charAt(display.length() - 1) == '.') ;
+                        else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                                 equation.charAt(equation.length() - 1) == ')' ||
                                 Numbers.lastInputIsConstant(display)) {
                             equation += "*RAD(SIN(";
@@ -761,7 +800,10 @@ public class MainActivity extends ActionBarActivity {
                         if (equation.isEmpty()) {
                             equation += "COS(";
                             display += "cos(";
-                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                        }  else if (display.charAt(display.length() - 1) == 'E' ||
+                                display.charAt(display.length() - 1) == '^' ||
+                                display.charAt(display.length() - 1) == '.') ;
+                        else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                                 equation.charAt(equation.length() - 1) == ')' ||
                                 Numbers.lastInputIsConstant(display)) {
                             equation += "*COS(";
@@ -774,7 +816,10 @@ public class MainActivity extends ActionBarActivity {
                         if (equation.isEmpty()) {
                             equation += "RAD(COS(";
                             display += "cos(";
-                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                        }  else if (display.charAt(display.length() - 1) == 'E' ||
+                                display.charAt(display.length() - 1) == '^' ||
+                                display.charAt(display.length() - 1) == '.') ;
+                        else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                                 equation.charAt(equation.length() - 1) == ')' ||
                                 Numbers.lastInputIsConstant(display)) {
                             equation += "*RAD(COS(";
@@ -796,7 +841,10 @@ public class MainActivity extends ActionBarActivity {
                         if (equation.isEmpty()) {
                             equation += "TAN(";
                             display += "tan(";
-                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                        }  else if (display.charAt(display.length() - 1) == 'E' ||
+                                display.charAt(display.length() - 1) == '^' ||
+                                display.charAt(display.length() - 1) == '.') ;
+                        else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                                 equation.charAt(equation.length() - 1) == ')' ||
                                 Numbers.lastInputIsConstant(display)) {
                             equation += "*TAN(";
@@ -809,7 +857,10 @@ public class MainActivity extends ActionBarActivity {
                         if (equation.isEmpty()) {
                             equation += "RAD(TAN(";
                             display += "tan(";
-                        } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                        }  else if (display.charAt(display.length() - 1) == 'E' ||
+                                display.charAt(display.length() - 1) == '^' ||
+                                display.charAt(display.length() - 1) == '.') ;
+                        else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                                 equation.charAt(equation.length() - 1) == ')' ||
                                 Numbers.lastInputIsConstant(display)) {
                             equation += "*RAD(TAN(";
@@ -830,7 +881,10 @@ public class MainActivity extends ActionBarActivity {
                     if (equation.isEmpty() || display.isEmpty()) {
                         equation += "LOG(";
                         display += "ln(";
-                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                    }  else if (display.charAt(display.length() - 1) == 'E' ||
+                            display.charAt(display.length() - 1) == '^' ||
+                            display.charAt(display.length() - 1) == '.') ;
+                    else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                             equation.charAt(equation.length() - 1) == ')' ||
                             Numbers.lastInputIsConstant(display)) {
                         equation += "*LOG(";
@@ -849,7 +903,10 @@ public class MainActivity extends ActionBarActivity {
                     if (equation.isEmpty()) {
                         equation += "LOG10(";
                         display += "log(";
-                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                    }  else if (display.charAt(display.length() - 1) == 'E' ||
+                            display.charAt(display.length() - 1) == '^' ||
+                            display.charAt(display.length() - 1) == '.') ;
+                    else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                             equation.charAt(equation.length() - 1) == ')' ||
                             Numbers.lastInputIsConstant(display)) {
                         equation += "*LOG10(";
@@ -868,7 +925,10 @@ public class MainActivity extends ActionBarActivity {
                     if (equation.isEmpty()) {
                         equation += "SQRT(";
                         display += "√(";
-                    } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                    }  else if (display.charAt(display.length() - 1) == 'E' ||
+                            display.charAt(display.length() - 1) == '^' ||
+                            display.charAt(display.length() - 1) == '.') ;
+                    else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                             equation.charAt(equation.length() - 1) == ')' ||
                             Numbers.lastInputIsConstant(display)) {
                         equation += "*SQRT(";
@@ -886,6 +946,7 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     if (display.isEmpty()) ;
+                    else if (display.charAt(display.length() - 1) == '.') ;
                     else if (Character.isDigit(display.charAt(display.length() - 1))) {
                         equation = equation.substring(0, display.length() - currNum.length()) + currNum;
                         lastNum = currNum;
