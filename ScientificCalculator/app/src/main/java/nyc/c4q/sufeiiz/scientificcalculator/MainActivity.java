@@ -8,17 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
-
 import java.math.BigDecimal;
-
 
 public class MainActivity extends ActionBarActivity {
 
     private TextView outputEq, outputAns, mode;
     private String equation, currNum, lastAns, lastNum, display;
     private int count;
+    private double π = 3.14159265359, e = 2.71828182846;
     private boolean degMode = true;
 
     @Override
@@ -86,7 +84,12 @@ public class MainActivity extends ActionBarActivity {
         final Button log = (Button) findViewById(R.id.btn_log);
 
         // Numbers OnClickListener
-        zero.setOnClickListener(new View.OnClickListener() {
+        class numClickListener implements View.OnClickListener {
+            private int num;
+            public numClickListener(int num) {
+                this.num = num;
+            }
+
             @Override
             public void onClick(View v) {
                 if (display.isEmpty()) ;
@@ -94,138 +97,60 @@ public class MainActivity extends ActionBarActivity {
                     equation += "*";
                     display += "×";
                 }
-                currNum += "0";
-                equation += "0";
-                display += "0";
+                currNum += num;
+                equation += num;
+                display += num;
                 outputEq.setText(display);
             }
-        });
-        one.setOnClickListener(new View.OnClickListener() {
+        }
+        zero.setOnClickListener(new numClickListener(0));
+        one.setOnClickListener(new numClickListener(1));
+        two.setOnClickListener(new numClickListener(2));
+        three.setOnClickListener(new numClickListener(3));
+        four.setOnClickListener(new numClickListener(4));
+        five.setOnClickListener(new numClickListener(5));
+        six.setOnClickListener(new numClickListener(6));
+        seven.setOnClickListener(new numClickListener(7));
+        eight.setOnClickListener(new numClickListener(8));
+        nine.setOnClickListener(new numClickListener(9));
+
+        // if equation is empty and current is not empty, add current to equation
+        // else if only equation is empty, ignore (needed so there's no out of range error)
+        // else if last input was operator or (, replace
+        // else just add operator
+
+        class operatorClickListener implements View.OnClickListener {
+            private char operator;
+            public operatorClickListener(char operator) {
+                this.operator = operator;
+            }
+
             @Override
             public void onClick(View v) {
-                if (display.isEmpty()) ;
-                else if (Numbers.lastInputIsConstant(display)) {
-                    equation += "*";
-                    display += "×";
+                if (equation.isEmpty() && !lastAns.isEmpty()) {
+                    lastNum = lastAns;
+                    equation = lastAns + operator;
+                    display = lastAns + operator;
+                } else if (equation.isEmpty() || equation.endsWith("LOG(") ||
+                        equation.endsWith("LOG10(") || equation.endsWith("SIN(") ||
+                        equation.endsWith("COS(") || equation.endsWith("TAN(") ||
+                        equation.endsWith("^")) ;
+                else if (Numbers.lastInputIsOperator(equation)) {
+                    equation = equation.substring(0, equation.length() - 1) + operator;
+                    display = display.substring(0, display.length() - 1) + operator;
+                } else {
+                    equation += operator;
+                    lastNum = currNum;
+                    currNum = "";
+                    display += operator;
                 }
-                currNum += "1";
-                equation += "1";
-                display += "1";
                 outputEq.setText(display);
             }
-        });
-        two.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (display.isEmpty()) ;
-                else if (Numbers.lastInputIsConstant(display)) {
-                    equation += "*";
-                    display += "×";
-                }
-                currNum += "2";
-                equation += "2";
-                display += "2";
-                outputEq.setText(display);
-            }
-        });
-        three.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (display.isEmpty()) ;
-                else if (Numbers.lastInputIsConstant(display)) {
-                    equation += "*";
-                    display += "×";
-                }
-                currNum += "3";
-                equation += "3";
-                display += "3";
-                outputEq.setText(display);
-            }
-        });
-        four.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (display.isEmpty()) ;
-                else if (Numbers.lastInputIsConstant(display)) {
-                    equation += "*";
-                    display += "×";
-                }
-                currNum += "4";
-                equation += "4";
-                display += "4";
-                outputEq.setText(display);
-            }
-        });
-        five.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (display.isEmpty()) ;
-                else if (Numbers.lastInputIsConstant(display)) {
-                    equation += "*";
-                    display += "×";
-                }
-                currNum += "5";
-                equation += "5";
-                display += "5";
-                outputEq.setText(display);
-            }
-        });
-        six.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (display.isEmpty()) ;
-                else if (Numbers.lastInputIsConstant(display)) {
-                    equation += "*";
-                    display += "×";
-                }
-                currNum += "6";
-                equation += "6";
-                display += "6";
-                outputEq.setText(display);
-            }
-        });
-        seven.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (display.isEmpty()) ;
-                else if (Numbers.lastInputIsConstant(display)) {
-                    equation += "*";
-                    display += "×";
-                }
-                currNum += "7";
-                equation += "7";
-                display += "7";
-                outputEq.setText(display);
-            }
-        });
-        eight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (display.isEmpty()) ;
-                else if (Numbers.lastInputIsConstant(display)) {
-                    equation += "*";
-                    display += "×";
-                }
-                currNum += "8";
-                equation += "8";
-                display += "8";
-                outputEq.setText(display);
-            }
-        });
-        nine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (display.isEmpty()) ;
-                else if (Numbers.lastInputIsConstant(display)) {
-                    equation += "*";
-                    display += "×";
-                }
-                currNum += "9";
-                equation += "9";
-                display += "9";
-                outputEq.setText(display);
-            }
-        });
+        }
+        add.setOnClickListener(new operatorClickListener('+'));
+        minus.setOnClickListener(new operatorClickListener('-'));
+        multiply.setOnClickListener(new operatorClickListener('*'));
+        divide.setOnClickListener(new operatorClickListener('/'));
 
         // if number already contains ".", ignore
         // if user omits 0 before ".", include 0
@@ -321,102 +246,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        // if equation is empty and current is not empty, add current to equation
-        // else if only equation is empty, ignore (needed so there's no out of range error)
-        // else if last input was operator or (, replace
-        // else just add operator
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (equation.isEmpty() && !lastAns.isEmpty()) {
-                    lastNum = lastAns;
-                    equation = lastAns + "+";
-                    display = lastAns + "+";
-                } else if (equation.isEmpty() || equation.endsWith("LOG(") ||
-                        equation.endsWith("LOG10(") || equation.endsWith("SIN(") ||
-                        equation.endsWith("COS(") || equation.endsWith("TAN(") ||
-                        equation.endsWith("^")) ;
-                else if (Numbers.lastInputIsOperator(equation)) {
-                    equation = equation.substring(0, equation.length() - 1) + "+";
-                    display = display.substring(0, display.length() - 1) + "+";
-                } else {
-                    equation += "+";
-                    lastNum = currNum;
-                    currNum = "";
-                    display += "+";
-                }
-                outputEq.setText(display);
-            }
-        });
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (equation.isEmpty() && !lastAns.isEmpty()) {
-                    lastNum = lastAns;
-                    equation = lastAns + "-";
-                    display = lastAns + "-";
-                } else if (equation.isEmpty() || equation.endsWith("LOG(") ||
-                        equation.endsWith("LOG10(") ||equation.endsWith("SIN(") ||
-                        equation.endsWith("COS(") ||equation.endsWith("TAN(") ||
-                        equation.endsWith("^")) ;
-                else if (Numbers.lastInputIsOperator(equation)) {
-                    equation = equation.substring(0, equation.length() - 1) + "-";
-                    display = display.substring(0, display.length() - 1) + "-";
-                } else {
-                    equation += "-";
-                    lastNum = currNum;
-                    currNum = "";
-                    display += "-";
-                }
-                outputEq.setText(display);
-            }
-        });
-        multiply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (equation.isEmpty() && !lastAns.isEmpty()) {
-                    lastNum = lastAns;
-                    equation = lastAns + "*";
-                    display = lastAns + "×";
-                } else if (equation.isEmpty() || equation.endsWith("LOG(") ||
-                        equation.endsWith("LOG10(") ||equation.endsWith("SIN(") ||
-                        equation.endsWith("COS(") ||equation.endsWith("TAN(") ||
-                        equation.endsWith("^")) ;
-                else if (Numbers.lastInputIsOperator(equation)) {
-                    equation = equation.substring(0, equation.length() - 1) + "*";
-                    display = display.substring(0, display.length() - 1) + "×";
-                } else {
-                    equation += "*";
-                    lastNum = currNum;
-                    currNum = "";
-                    display += "×";
-                }
-                outputEq.setText(display);
-            }
-        });
-        divide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (equation.isEmpty() && !lastAns.isEmpty()) {
-                    lastNum = lastAns;
-                    equation = lastAns + "/";
-                    display = lastAns + "÷";
-                } else if (equation.isEmpty() || equation.endsWith("LOG(") ||
-                        equation.endsWith("LOG10(") ||equation.endsWith("SIN(") ||
-                        equation.endsWith("COS(") ||equation.endsWith("TAN(") ||
-                        equation.endsWith("^")) ;
-                else if (Numbers.lastInputIsOperator(equation)) {
-                    equation = equation.substring(0, equation.length() - 1) + "/";
-                    display = display.substring(0, display.length() - 1) + "÷";
-                } else {
-                    equation += "/";
-                    lastNum = currNum;
-                    currNum = "";
-                    display += "÷";
-                }
-                outputEq.setText(display);
-            }
-        });
+
 
         // if equation is empty, ignore
         // else if last input was operator or ( or %, ignore
@@ -713,168 +543,86 @@ public class MainActivity extends ActionBarActivity {
                     }
                 }
             });
-            pi.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currNum = String.valueOf(3.14159265359);
-                    if (display.isEmpty()) {
-                        equation += currNum;
-                        display += "π";
-                    } else if (Numbers.lastInputIsConstant(display) ||
-                            Character.isDigit(display.charAt(display.length() - 1)) ||
-                            display.charAt(display.length() - 1) == ')') {
-                        equation += "*" + currNum;
-                        display += "×π";
-                    } else {
-                        equation += currNum;
-                        display += "π";
-                    }
-                    outputEq.setText(display);
-                }
-            });
-            e.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currNum = String.valueOf(2.71828182846);
-                    if (display.isEmpty()) {
-                        equation += currNum;
-                        display += "e";
-                    } else if (Numbers.lastInputIsConstant(display) ||
-                            Character.isDigit(display.charAt(display.length() - 1)) ||
-                            display.charAt(display.length() - 1) == ')') {
-                        equation += "*" + currNum;
-                        display += "×e";
-                    } else {
-                        equation += currNum;
-                        display += "e";
-                    }
-                    outputEq.setText(display);
-                }
-            });
 
-            sin.setOnClickListener(new View.OnClickListener() {
+            // constants clickListener
+            class constantsClickListener implements View.OnClickListener {
+                private char constant;
+                constantsClickListener(char constant) {
+                    this.constant = constant;
+                }
+
+                @Override
+                public void onClick(View v) {
+                    currNum = String.valueOf(constant);
+                    if (display.isEmpty()) {
+                        equation += currNum;
+                        display += constant;
+                    } else if (Numbers.lastInputIsConstant(display) ||
+                            Character.isDigit(display.charAt(display.length() - 1)) ||
+                            display.charAt(display.length() - 1) == ')') {
+                        equation += "*" + currNum;
+                        display += "×" + constant;
+                    } else {
+                        equation += currNum;
+                        display += constant;
+                    }
+                    outputEq.setText(display);
+                }
+            }
+            pi.setOnClickListener(new constantsClickListener('π'));
+            e.setOnClickListener(new constantsClickListener('e'));
+
+            // trig clickListener
+            class trigClickListener implements View.OnClickListener {
+                private String trig;
+                trigClickListener(String trig) {
+                    this.trig = trig;
+                }
+
                 @Override
                 public void onClick(View v) {
                     if (degMode) {
                         if (equation.isEmpty()) {
-                            equation += "SIN(";
-                            display += "sin(";
+                            equation += trig;
+                            display += trig;
                         } else if (display.charAt(display.length() - 1) == 'E' ||
                                 display.charAt(display.length() - 1) == '^' ||
                                 display.charAt(display.length() - 1) == '.') ;
                         else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                                 equation.charAt(equation.length() - 1) == ')' ||
                                 Numbers.lastInputIsConstant(display)) {
-                            equation += "*SIN(";
-                            display += "×sin(";
+                            equation += "*" + trig;
+                            display += "×" + trig;
                         } else {
-                            equation += "SIN(";
-                            display += "sin(";
+                            equation += trig;
+                            display += trig;
                         }
                     } else {
                         if (equation.isEmpty()) {
-                            equation += "RAD(SIN(";
-                            display += "sin(";
-                        }  else if (display.charAt(display.length() - 1) == 'E' ||
+                            equation += "RAD(" + trig;
+                            display += trig;
+                        } else if (display.charAt(display.length() - 1) == 'E' ||
                                 display.charAt(display.length() - 1) == '^' ||
                                 display.charAt(display.length() - 1) == '.') ;
                         else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                                 equation.charAt(equation.length() - 1) == ')' ||
                                 Numbers.lastInputIsConstant(display)) {
-                            equation += "*RAD(SIN(";
-                            display += "×sin(";
+                            equation += "*RAD(" + trig;
+                            display += "×" + trig;
                         } else {
-                            equation += "RAD(SIN(";
-                            display += "sin(";
+                            equation += "RAD(" + trig;
+                            display += trig;
                         }
                         count++;
                     }
                     count++;
                     outputEq.setText(display);
                 }
-            });
-            cos.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (degMode) {
-                        if (equation.isEmpty()) {
-                            equation += "COS(";
-                            display += "cos(";
-                        }  else if (display.charAt(display.length() - 1) == 'E' ||
-                                display.charAt(display.length() - 1) == '^' ||
-                                display.charAt(display.length() - 1) == '.') ;
-                        else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                                equation.charAt(equation.length() - 1) == ')' ||
-                                Numbers.lastInputIsConstant(display)) {
-                            equation += "*COS(";
-                            display += "×cos(";
-                        } else {
-                            equation += "COS(";
-                            display += "cos(";
-                        }
-                    } else {
-                        if (equation.isEmpty()) {
-                            equation += "RAD(COS(";
-                            display += "cos(";
-                        }  else if (display.charAt(display.length() - 1) == 'E' ||
-                                display.charAt(display.length() - 1) == '^' ||
-                                display.charAt(display.length() - 1) == '.') ;
-                        else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                                equation.charAt(equation.length() - 1) == ')' ||
-                                Numbers.lastInputIsConstant(display)) {
-                            equation += "*RAD(COS(";
-                            display += "×cos(";
-                        } else {
-                            equation += "RAD(COS(";
-                            display += "cos(";
-                        }
-                        count++;
-                    }
-                    count++;
-                    outputEq.setText(display);
-                }
-            });
-            tan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (degMode) {
-                        if (equation.isEmpty()) {
-                            equation += "TAN(";
-                            display += "tan(";
-                        }  else if (display.charAt(display.length() - 1) == 'E' ||
-                                display.charAt(display.length() - 1) == '^' ||
-                                display.charAt(display.length() - 1) == '.') ;
-                        else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                                equation.charAt(equation.length() - 1) == ')' ||
-                                Numbers.lastInputIsConstant(display)) {
-                            equation += "*TAN(";
-                            display += "×tan(";
-                        } else {
-                            equation += "TAN(";
-                            display += "tan(";
-                        }
-                    } else {
-                        if (equation.isEmpty()) {
-                            equation += "RAD(TAN(";
-                            display += "tan(";
-                        }  else if (display.charAt(display.length() - 1) == 'E' ||
-                                display.charAt(display.length() - 1) == '^' ||
-                                display.charAt(display.length() - 1) == '.') ;
-                        else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                                equation.charAt(equation.length() - 1) == ')' ||
-                                Numbers.lastInputIsConstant(display)) {
-                            equation += "*RAD(TAN(";
-                            display += "×tan(";
-                        } else {
-                            equation += "RAD(TAN(";
-                            display += "tan(";
-                        }
-                        count++;
-                    }
-                    count++;
-                    outputEq.setText(display);
-                }
-            });
+            }
+            sin.setOnClickListener(new trigClickListener("SIN("));
+            cos.setOnClickListener(new trigClickListener("COS("));
+            tan.setOnClickListener(new trigClickListener("TAN("));
+            
             ln.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
