@@ -2,8 +2,6 @@ package nyc.c4q.sufeiiz.scientificcalculator;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -13,6 +11,8 @@ import java.math.BigDecimal;
 
 public class MainActivity extends ActionBarActivity {
 
+    private Button clr, ans, negative, backspace, open, close, add, minus, multiply, divide, percent, zero, one, two, three,
+            four, five, six, seven, eight, nine, dot, equal, factorial, pi, ee, sqRoot, sq, sin, cos, tan, exp, ln, log;
     private TextView outputEq, outputAns, mode;
     private String equation, currNum, lastAns, lastNum, display;
     private int count;
@@ -24,8 +24,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        outputEq = (TextView) findViewById(R.id.output_equation);
-        outputAns = (TextView) findViewById(R.id.output_answer);
+        initializeViews();
         if (savedInstanceState == null) {
             outputEq.setText("");
             outputAns.setText("");
@@ -42,43 +41,6 @@ public class MainActivity extends ActionBarActivity {
             count = savedInstanceState.getInt("count");
         }
 
-        final Button clr = (Button) findViewById(R.id.btn_clear);
-        final Button ans = (Button) findViewById(R.id.btn_ans);
-        final Button negative = (Button) findViewById(R.id.btn_int);
-        final Button backspace = (Button) findViewById(R.id.btn_backspace);
-        final Button open = (Button) findViewById(R.id.btn_paren_open);
-        final Button close = (Button) findViewById(R.id.btn_paren_close);
-        final Button add = (Button) findViewById(R.id.btn_add);
-        final Button minus = (Button) findViewById(R.id.btn_sub);
-        final Button multiply = (Button) findViewById(R.id.btn_mult);
-        final Button divide = (Button) findViewById(R.id.btn_div);
-        final Button percent = (Button) findViewById(R.id.btn_percent);
-        final Button zero = (Button) findViewById(R.id.btn_0);
-        final Button one = (Button) findViewById(R.id.btn_1);
-        final Button two = (Button) findViewById(R.id.btn_2);
-        final Button three = (Button) findViewById(R.id.btn_3);
-        final Button four = (Button) findViewById(R.id.btn_4);
-        final Button five = (Button) findViewById(R.id.btn_5);
-        final Button six = (Button) findViewById(R.id.btn_6);
-        final Button seven = (Button) findViewById(R.id.btn_7);
-        final Button eight = (Button) findViewById(R.id.btn_8);
-        final Button nine = (Button) findViewById(R.id.btn_9);
-        final Button dot = (Button) findViewById(R.id.btn_decimal);
-        final Button equal = (Button) findViewById(R.id.btn_equals);
-
-        // Scientific buttons
-        final Button factorial = (Button) findViewById(R.id.btn_factorial);
-        final Button pi = (Button) findViewById(R.id.btn_pi);
-        final Button e = (Button) findViewById(R.id.btn_e);
-        final Button sqRoot = (Button) findViewById(R.id.btn_sq_root);
-        final Button sq = (Button) findViewById(R.id.btn_sq);
-        final Button sin = (Button) findViewById(R.id.btn_sin);
-        final Button cos = (Button) findViewById(R.id.btn_cos);
-        final Button tan = (Button) findViewById(R.id.btn_tan);
-        final Button exp = (Button) findViewById(R.id.btn_exp);
-        final Button ln = (Button) findViewById(R.id.btn_ln);
-        final Button log = (Button) findViewById(R.id.btn_log);
-
         // Numbers OnClickListener
         zero.setOnClickListener(new numClickListener(0));
         one.setOnClickListener(new numClickListener(1));
@@ -90,8 +52,6 @@ public class MainActivity extends ActionBarActivity {
         seven.setOnClickListener(new numClickListener(7));
         eight.setOnClickListener(new numClickListener(8));
         nine.setOnClickListener(new numClickListener(9));
-
-        // operator clickListner
         add.setOnClickListener(new operatorClickListener('+'));
         minus.setOnClickListener(new operatorClickListener('-'));
         multiply.setOnClickListener(new operatorClickListener('*'));
@@ -426,6 +386,16 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
 
+            // constants clickListener
+            pi.setOnClickListener(new constantsClickListener('π'));
+            ee.setOnClickListener(new constantsClickListener('e'));
+            sin.setOnClickListener(new trigClickListener("SIN("));
+            cos.setOnClickListener(new trigClickListener("COS("));
+            tan.setOnClickListener(new trigClickListener("TAN("));
+            ln.setOnClickListener(new logClickListener("LOG(")); //display = ln(), equation = log()
+            log.setOnClickListener(new logClickListener("LOG10(")); // display = log(), equation = log10()
+            sqRoot.setOnClickListener(new logClickListener("SQRT(")); //display = √(), equations = SQRT()
+
             // if equation if empty, ignore
             // else last operator was an operator, ignore
             // else try factorial calculation, catch error
@@ -459,20 +429,6 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
 
-            // constants clickListener
-            pi.setOnClickListener(new constantsClickListener('π'));
-            e.setOnClickListener(new constantsClickListener('e'));
-
-            // trig clickListener
-            sin.setOnClickListener(new trigClickListener("SIN("));
-            cos.setOnClickListener(new trigClickListener("COS("));
-            tan.setOnClickListener(new trigClickListener("TAN("));
-
-            // log & square clickListener
-            ln.setOnClickListener(new logClickListener("LOG(")); //display = ln(), equation = log()
-            log.setOnClickListener(new logClickListener("LOG10(")); // display = log(), equation = log10()
-            sqRoot.setOnClickListener(new logClickListener("SQRT(")); //display = √(), equations = SQRT()
-
             exp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -505,6 +461,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    /** ON CLICK LISTENERS **/
     private class numClickListener implements View.OnClickListener {
         private int num;
         public numClickListener(int num) {
@@ -525,7 +482,6 @@ public class MainActivity extends ActionBarActivity {
     // if equation is empty and current is not empty, add current to equation
     // else if only equation is empty, ignore (needed so there's no out of range error)
     // else if last input was operator or (, replace
-    // else just add operator
     private class operatorClickListener implements View.OnClickListener {
         private char operator;
         public operatorClickListener(char operator) {
@@ -538,10 +494,8 @@ public class MainActivity extends ActionBarActivity {
                 lastNum = lastAns;
                 equation = lastAns + operator;
                 display = lastAns + operator;
-            } else if (equation.isEmpty() || equation.endsWith("LOG(") ||
-                    equation.endsWith("LOG10(") || equation.endsWith("SIN(") ||
-                    equation.endsWith("COS(") || equation.endsWith("TAN(") ||
-                    equation.endsWith("^")) ;
+            } else if (equation.isEmpty() || equation.endsWith("LOG(") || equation.endsWith("LOG10(") || equation.endsWith("SIN(") ||
+                    equation.endsWith("COS(") || equation.endsWith("TAN(") || equation.endsWith("^")) ;
             else if (Numbers.lastInputIsOperator(equation)) {
                 equation = equation.substring(0, equation.length() - 1) + operator;
                 display = display.substring(0, display.length() - 1) + operator;
@@ -570,8 +524,7 @@ public class MainActivity extends ActionBarActivity {
             if (display.isEmpty()) {
                 equation += currNum;
                 display += constant;
-            } else if (Numbers.lastInputIsConstant(display) ||
-                    Character.isDigit(display.charAt(display.length() - 1)) ||
+            } else if (Numbers.lastInputIsConstant(display) || Character.isDigit(display.charAt(display.length() - 1)) ||
                     display.charAt(display.length() - 1) == ')') {
                 equation += "*" + currNum;
                 display += "×" + constant;
@@ -677,5 +630,44 @@ public class MainActivity extends ActionBarActivity {
         lastNum = "";
         display = "";
         count = 0;
+    }
+
+    public void initializeViews() {
+        outputEq = (TextView) findViewById(R.id.output_equation);
+        outputAns = (TextView) findViewById(R.id.output_answer);
+        clr = (Button) findViewById(R.id.btn_clear);
+        ans = (Button) findViewById(R.id.btn_ans);
+        negative = (Button) findViewById(R.id.btn_int);
+        backspace = (Button) findViewById(R.id.btn_backspace);
+        open = (Button) findViewById(R.id.btn_paren_open);
+        close = (Button) findViewById(R.id.btn_paren_close);
+        add = (Button) findViewById(R.id.btn_add);
+        minus = (Button) findViewById(R.id.btn_sub);
+        multiply = (Button) findViewById(R.id.btn_mult);
+        divide = (Button) findViewById(R.id.btn_div);
+        percent = (Button) findViewById(R.id.btn_percent);
+        zero = (Button) findViewById(R.id.btn_0);
+        one = (Button) findViewById(R.id.btn_1);
+        two = (Button) findViewById(R.id.btn_2);
+        three = (Button) findViewById(R.id.btn_3);
+        four = (Button) findViewById(R.id.btn_4);
+        five = (Button) findViewById(R.id.btn_5);
+        six = (Button) findViewById(R.id.btn_6);
+        seven = (Button) findViewById(R.id.btn_7);
+        eight = (Button) findViewById(R.id.btn_8);
+        nine = (Button) findViewById(R.id.btn_9);
+        dot = (Button) findViewById(R.id.btn_decimal);
+        equal = (Button) findViewById(R.id.btn_equals);
+        factorial = (Button) findViewById(R.id.btn_factorial);
+        pi = (Button) findViewById(R.id.btn_pi);
+        ee = (Button) findViewById(R.id.btn_e);
+        sqRoot = (Button) findViewById(R.id.btn_sq_root);
+        sq = (Button) findViewById(R.id.btn_sq);
+        sin = (Button) findViewById(R.id.btn_sin);
+        cos = (Button) findViewById(R.id.btn_cos);
+        tan = (Button) findViewById(R.id.btn_tan);
+        exp = (Button) findViewById(R.id.btn_exp);
+        ln = (Button) findViewById(R.id.btn_ln);
+        log = (Button) findViewById(R.id.btn_log);
     }
 }
