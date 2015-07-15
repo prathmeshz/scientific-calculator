@@ -29,12 +29,8 @@ public class MainActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             outputEq.setText("");
             outputAns.setText("");
-            display = "";
-            equation = "";
-            currNum = "";
-            lastNum = "";
+            clear();
             lastAns = "0";
-            count = 0;
         } else {
             outputAns.setText(savedInstanceState.getString("lastAns"));
             outputEq.setText(savedInstanceState.getString("display"));
@@ -107,20 +103,13 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (currNum.contains(".")) ;
-                else if (equation.isEmpty()) {
-                    currNum += "0.";
-                    equation += "0.";
-                    display += "0.";
-                } else {
-                    if (currNum.equals("") || Numbers.lastInputIsOperator(equation)) {
-                        currNum += "0.";
-                        equation += "0.";
-                        display += "0.";
-                    } else {
-                        equation += ".";
-                        currNum += ".";
-                        display += ".";
-                    }
+                else if (equation.isEmpty())
+                    insertNum("0.", true, true, true);
+                else {
+                    if (currNum.equals("") || Numbers.lastInputIsOperator(equation))
+                        insertNum("0.", true, true, true);
+                    else
+                        insertNum(".", true, true, true);
                 }
                 outputEq.setText(display);
             }
@@ -130,12 +119,8 @@ public class MainActivity extends ActionBarActivity {
         clr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                equation = "";
-                currNum = "";
-                lastAns = "";
-                lastNum = "";
-                display = "";
-                count = 0;
+                lastAns = "0";
+                clear();
                 outputAns.setText("");
                 outputEq.setText(display);
             }
@@ -230,8 +215,7 @@ public class MainActivity extends ActionBarActivity {
                         currNum = currNum.substring(1);
                     else
                         currNum = "-" + currNum;
-                    equation += currNum;
-                    display += currNum;
+                    insertNum(currNum, false, true, true);
                 } else if (Numbers.lastInputIsPercent(display)) {
                     String converted = Numbers.percentage(currNum, lastNum);
                     display = display.substring(0, display.length() - currNum.length() - 1);
@@ -326,18 +310,14 @@ public class MainActivity extends ActionBarActivity {
         open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (equation.isEmpty()) {
-                    equation += "(";
-                    display += "(";
-                } else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                if (equation.isEmpty())
+                    insertNum("(", false, true, true);
+                else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                         equation.charAt(equation.length() - 1) == ')' ||
-                        Numbers.lastInputIsConstant(display)) {
-                    equation += "*(";
-                    display += "×(";
-                } else {
-                    display += "(";
-                    equation += "(";
-                }
+                        Numbers.lastInputIsConstant(display))
+                    insertNum("*(", false, true, true);
+                else
+                    insertNum("(", false, true, true);
                 lastAns = currNum;
                 currNum = "";
                 count++;
@@ -354,8 +334,7 @@ public class MainActivity extends ActionBarActivity {
                 if (equation.isEmpty() || count <= 0 ||
                         Numbers.lastInputIsOperator(equation)) ;
                 else {
-                    equation += ")";
-                    display += ")";
+                    insertNum(")", false, true, true);
                     lastAns = currNum;
                     currNum = "";
                     count--;
@@ -397,6 +376,7 @@ public class MainActivity extends ActionBarActivity {
                         equation += ")";
                     }
                 }
+
                 if (equation.startsWith("-LOG") || equation.startsWith("-LOG10") ||
                         equation.startsWith("-SIN") || equation.startsWith("-COS") ||
                         equation.startsWith("-TAN"))
@@ -407,11 +387,7 @@ public class MainActivity extends ActionBarActivity {
                 if (equation.equals(""))
                     outputEq.setText("");
                 else if (equation.contains("infinity")) {
-                    lastNum = "";
-                    currNum = "";
-                    equation = "";
-                    display = "";
-                    count = 0;
+                    clear();
                     outputEq.setText("Infinity");
                 } else {
                     try {
@@ -422,18 +398,10 @@ public class MainActivity extends ActionBarActivity {
                         if (lastAns.substring(lastAns.length() - 2).equals(".0"))
                             lastAns = String.valueOf(answer.longValue());
                     } catch (Exception e) {
-                        equation = "";
-                        currNum = "";
-                        lastNum = "";
-                        display = "";
-                        count = 0;
+                        clear();
                         outputEq.setText("Error");
                     }
-                    lastNum = "";
-                    currNum = "";
-                    equation = "";
-                    display = "";
-                    count = 0;
+                    clear();
                     outputAns.setText(lastAns);
                 }
             }
@@ -472,6 +440,7 @@ public class MainActivity extends ActionBarActivity {
                             currNum = currNum.substring(0, currNum.length() - 1);
                             equation = equation.substring(0, equation.length() - 1);
                         }
+
                         try {
                             equation = equation.substring(0, equation.length() - currNum.length());
                             if (Numbers.factorial(Integer.valueOf(currNum)) == 0)
@@ -481,13 +450,12 @@ public class MainActivity extends ActionBarActivity {
                             display += "!";
                             outputEq.setText(display);
                         } catch (Exception e) {
-                            equation = "";
-                            currNum = "";
-                            lastNum = "";
-                            display = "";
+                            clear();
                             outputEq.setText("Error");
                         }
                     }
+
+                    //TODO 2!2!, 243564564! crash
                 }
             });
 
@@ -514,13 +482,10 @@ public class MainActivity extends ActionBarActivity {
                         equation = equation.substring(0, display.length() - currNum.length()) + currNum;
                         lastNum = currNum;
                         currNum = "";
-                        equation += "*(10^";
-                        display += "E";
+                        insertNum("*(10^", false, true, true); //display = E, equation = *(10^
                         count++;
                     }
                     outputEq.setText(display);
-
-                    //2*(10^5)
                 }
             });
 
@@ -532,8 +497,7 @@ public class MainActivity extends ActionBarActivity {
                     else {
                         lastNum = currNum;
                         currNum = "";
-                        equation += "^";
-                        display += "^";
+                        insertNum("^", false, true, true);
                     }
                     outputEq.setText(display);
                 }
@@ -551,12 +515,9 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View v) {
             if (display.isEmpty()) ;
             else if (Numbers.lastInputIsConstant(display)) {
-                equation += "*";
-                display += "×";
+                insertNum("*", false, true, true);
             }
-            currNum += num;
-            equation += num;
-            display += num;
+            insertNum(num + "", true, true, true);
             outputEq.setText(display);
         }
     }
@@ -585,10 +546,9 @@ public class MainActivity extends ActionBarActivity {
                 equation = equation.substring(0, equation.length() - 1) + operator;
                 display = display.substring(0, display.length() - 1) + operator;
             } else {
-                equation += operator;
                 lastNum = currNum;
                 currNum = "";
-                display += operator;
+                insertNum(operator + "", false, true, true);
             }
             outputEq.setText(display);
         }
@@ -606,6 +566,7 @@ public class MainActivity extends ActionBarActivity {
                 currNum = String.valueOf(π);
             else
                 currNum = String.valueOf(e);
+
             if (display.isEmpty()) {
                 equation += currNum;
                 display += constant;
@@ -631,21 +592,17 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             if (degMode) {
-                if (equation.isEmpty()) {
-                    equation += trig;
-                    display += trig;
-                } else if (display.charAt(display.length() - 1) == 'E' ||
+                if (equation.isEmpty())
+                    insertNum(trig, false, true, true);
+                else if (display.charAt(display.length() - 1) == 'E' ||
                         display.charAt(display.length() - 1) == '^' ||
                         display.charAt(display.length() - 1) == '.') ;
                 else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                         equation.charAt(equation.length() - 1) == ')' ||
-                        Numbers.lastInputIsConstant(display)) {
-                    equation += "*" + trig;
-                    display += "×" + trig;
-                } else {
-                    equation += trig;
-                    display += trig;
-                }
+                        Numbers.lastInputIsConstant(display))
+                    insertNum("*" + trig, false, true, true);
+                else
+                    insertNum(trig, false, true, true);
             } else {
                 if (equation.isEmpty()) {
                     equation += "RAD(" + trig;
@@ -677,21 +634,18 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void onClick(View v) {
-            if (equation.isEmpty() || display.isEmpty()) {
-                equation += input;
-                display += input;
-            }  else if (display.charAt(display.length() - 1) == 'E' ||
+            if (equation.isEmpty() || display.isEmpty())
+                insertNum(input, false, true, true);
+            else if (display.charAt(display.length() - 1) == 'E' ||
                     display.charAt(display.length() - 1) == '^' ||
                     display.charAt(display.length() - 1) == '.') ;
             else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
                     equation.charAt(equation.length() - 1) == ')' ||
-                    Numbers.lastInputIsConstant(display)) {
-                equation += "*" + input;
-                display += "×" + input;
-            } else {
-                equation += input;
-                display += input;
-            }
+                    Numbers.lastInputIsConstant(display))
+                insertNum("*" + input, false, true, true);
+            else
+                insertNum(input, false, true, true);
+
             count++;
             outputEq.setText(display);
         }
@@ -708,25 +662,20 @@ public class MainActivity extends ActionBarActivity {
         outState.putInt("count", count);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void insertNum(String insert, boolean addCurrNum, boolean addEquation, boolean addDisplay) {
+        if (addCurrNum)
+            currNum += insert;
+        if (addEquation)
+            equation += insert;
+        if (addDisplay)
+            display += insert;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void clear() {
+        equation = "";
+        currNum = "";
+        lastNum = "";
+        display = "";
+        count = 0;
     }
 }
