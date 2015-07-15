@@ -500,72 +500,10 @@ public class MainActivity extends ActionBarActivity {
             cos.setOnClickListener(new trigClickListener("COS("));
             tan.setOnClickListener(new trigClickListener("TAN("));
 
-            ln.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (equation.isEmpty() || display.isEmpty()) {
-                        equation += "LOG(";
-                        display += "ln(";
-                    }  else if (display.charAt(display.length() - 1) == 'E' ||
-                            display.charAt(display.length() - 1) == '^' ||
-                            display.charAt(display.length() - 1) == '.') ;
-                    else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                            equation.charAt(equation.length() - 1) == ')' ||
-                            Numbers.lastInputIsConstant(display)) {
-                        equation += "*LOG(";
-                        display += "×ln(";
-                    } else {
-                        equation += "LOG(";
-                        display += "ln(";
-                    }
-                    count++;
-                    outputEq.setText(display);
-                }
-            });
-            log.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (equation.isEmpty()) {
-                        equation += "LOG10(";
-                        display += "log(";
-                    }  else if (display.charAt(display.length() - 1) == 'E' ||
-                            display.charAt(display.length() - 1) == '^' ||
-                            display.charAt(display.length() - 1) == '.') ;
-                    else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                            equation.charAt(equation.length() - 1) == ')' ||
-                            Numbers.lastInputIsConstant(display)) {
-                        equation += "*LOG10(";
-                        display += "×log(";
-                    } else {
-                        equation += "LOG10(";
-                        display += "log(";
-                    }
-                    count++;
-                    outputEq.setText(display);
-                }
-            });
-            sqRoot.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (equation.isEmpty()) {
-                        equation += "SQRT(";
-                        display += "√(";
-                    }  else if (display.charAt(display.length() - 1) == 'E' ||
-                            display.charAt(display.length() - 1) == '^' ||
-                            display.charAt(display.length() - 1) == '.') ;
-                    else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
-                            equation.charAt(equation.length() - 1) == ')' ||
-                            Numbers.lastInputIsConstant(display)) {
-                        equation += "*SQRT(";
-                        display += "×√(";
-                    } else {
-                        equation += "SQRT(";
-                        display += "√(";
-                    }
-                    count++;
-                    outputEq.setText(display);
-                }
-            });
+            // log & square clickListener
+            ln.setOnClickListener(new logClickListener("LOG(")); //display = ln(), equation = log()
+            log.setOnClickListener(new logClickListener("LOG10(")); // display = log(), equation = log10()
+            sqRoot.setOnClickListener(new logClickListener("SQRT(")); //display = √(), equations = SQRT()
 
             exp.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -664,7 +602,10 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void onClick(View v) {
-            currNum = String.valueOf(constant);
+            if (constant == 'π')
+                currNum = String.valueOf(π);
+            else
+                currNum = String.valueOf(e);
             if (display.isEmpty()) {
                 equation += currNum;
                 display += constant;
@@ -722,6 +663,34 @@ public class MainActivity extends ActionBarActivity {
                     display += trig;
                 }
                 count++;
+            }
+            count++;
+            outputEq.setText(display);
+        }
+    }
+
+    class logClickListener implements View.OnClickListener {
+        private String input;
+        logClickListener(String input) {
+            this.input = input;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (equation.isEmpty() || display.isEmpty()) {
+                equation += input;
+                display += input;
+            }  else if (display.charAt(display.length() - 1) == 'E' ||
+                    display.charAt(display.length() - 1) == '^' ||
+                    display.charAt(display.length() - 1) == '.') ;
+            else if (Character.isDigit(equation.charAt(equation.length() - 1)) ||
+                    equation.charAt(equation.length() - 1) == ')' ||
+                    Numbers.lastInputIsConstant(display)) {
+                equation += "*" + input;
+                display += "×" + input;
+            } else {
+                equation += input;
+                display += input;
             }
             count++;
             outputEq.setText(display);
