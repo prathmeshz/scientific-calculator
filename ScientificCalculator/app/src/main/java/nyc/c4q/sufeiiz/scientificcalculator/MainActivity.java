@@ -86,13 +86,13 @@ public class MainActivity extends ActionBarActivity {
             });
 
             // set scientific onClickListener
-            pi.setOnClickListener(new constantsClickListener('π'));
-            ee.setOnClickListener(new constantsClickListener('e'));
-            sin.setOnClickListener(new functionClickListener("SIN("));
-            cos.setOnClickListener(new functionClickListener("COS("));
-            tan.setOnClickListener(new functionClickListener("TAN("));
-            ln.setOnClickListener(new functionClickListener("LN(")); //display = ln(), equation = log()
-            log.setOnClickListener(new functionClickListener("LOG(")); // display = log(), equation = log10()
+            pi.setOnClickListener(new constantsClickListener(π));
+            ee.setOnClickListener(new constantsClickListener(e));
+            sin.setOnClickListener(new functionClickListener("sin("));
+            cos.setOnClickListener(new functionClickListener("cos("));
+            tan.setOnClickListener(new functionClickListener("tan("));
+            ln.setOnClickListener(new functionClickListener("LOG(")); //display = ln(), equation = log()
+            log.setOnClickListener(new functionClickListener("LOG10(")); // display = log(), equation = log10()
             sqRoot.setOnClickListener(new functionClickListener("SQRT(")); //display = √(), equations = SQRT()
             factorial.setOnClickListener(new factorialClickListener());
             exp.setOnClickListener(new expClickListener());
@@ -145,24 +145,19 @@ public class MainActivity extends ActionBarActivity {
     }
 
     class constantsClickListener implements View.OnClickListener {
-        private char constant;
-        constantsClickListener(char constant) {
+        private double constant;
+        constantsClickListener(double constant) {
             this.constant = constant;
         }
 
         @Override
         public void onClick(View v) {
-            if (constant == 'π')
-                currNum = String.valueOf(π);
-            else
-                currNum = String.valueOf(e);
-
             if (display.isEmpty())
-                insertNum(currNum, false, true, true);
+                insertNum(Double.toString(constant), false, true, true);
             else if (Numbers.lastInputIsConstant(display) || Numbers.lastInputIsDigit(display) || display.endsWith(")"))
-                insertNum("*" + currNum, false, true, true);
+                insertNum("*" + constant, false, true, true);
             else
-                insertNum(currNum, false, true, true);
+                insertNum(Double.toString(constant), false, true, true);
 
             outputEq.setText(display.replaceAll("3.14159265359", "π").replaceAll("2.71828182846", "e"));
         }
@@ -200,7 +195,7 @@ public class MainActivity extends ActionBarActivity {
                 count++;
             }
             count++;
-            outputEq.setText(display);
+            outputEq.setText(display.replaceAll("LOG\\(", "ln(").replaceAll("LOG10\\(", "log(").replaceAll("SQRT\\(", "√("));
         }
     }
 
@@ -484,10 +479,10 @@ public class MainActivity extends ActionBarActivity {
                 equation = equation.substring(0, display.length() - currNum.length()) + currNum;
                 lastNum = currNum;
                 currNum = "";
-                insertNum("E", false, true, true); //display = E, equation = *(10^
+                insertNum("*(10^", false, true, true); //display = E, equation = *(10^
                 count++;
             }
-            outputEq.setText(display);
+            outputEq.setText(display.replaceAll("\\*\\(10\\^", "E"));
         }
     }
 

@@ -44,18 +44,18 @@ public class Numbers extends MainActivity{
     }
 
     public static boolean lastInputIsTrig(String display) {
-        return display.endsWith("SIN(") || display.endsWith("COS(") ||
-                display.endsWith("TAN(") || display.endsWith("LOG(");
+        return display.endsWith("sin(") || display.endsWith("cos(") ||
+                display.endsWith("tan(") || display.endsWith("log(");
     }
 
     public static boolean startsWithTrig(String display) {
-        return display.startsWith("-LN") || display.startsWith("-LOG") ||
-                display.startsWith("-SIN") || display.startsWith("-COS") ||
-                display.startsWith("-TAN");
+        return display.startsWith("-ln") || display.startsWith("-log") ||
+                display.startsWith("-sin") || display.startsWith("-cos") ||
+                display.startsWith("-tan");
     }
 
     public static boolean equalsNontrig(String trig) {
-        return trig.equals("LN(") || trig.equals("LOG(") || trig.equals("SQRT(");
+        return trig.equals("LOG(") || trig.equals("LOG10(") || trig.equals("SQRT(");
     }
 
     public static boolean lastInputIsDigit(String display) {
@@ -63,7 +63,7 @@ public class Numbers extends MainActivity{
     }
 
     public static boolean lastInputIsError(String display) {
-        return display.endsWith("^") || display.endsWith("LN(") || display.endsWith("SQRT(");
+        return display.endsWith("^") || display.endsWith("ln(") || display.endsWith("√(");
     }
 
     // returns factorial answer
