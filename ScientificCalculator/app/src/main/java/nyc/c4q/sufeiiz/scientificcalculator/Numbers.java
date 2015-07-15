@@ -31,11 +31,6 @@ public class Numbers extends MainActivity{
         return Arrays.asList(operators).contains(String.valueOf(equation.charAt(equation.length() - 1)));
     }
 
-    // returns true if last input was %
-    public static boolean lastInputIsPercent(String display) {
-        return display.charAt(display.length() - 1) == '%';
-    }
-
     public static boolean lastInputIsConstant(String display) {
         return display.charAt(display.length() - 1) == 's' ||
                 display.charAt(display.length() - 1) == 'π' ||
@@ -46,6 +41,29 @@ public class Numbers extends MainActivity{
         return display.charAt(display.length() - 1) == 'E' ||
                 display.charAt(display.length() - 1) == '^' ||
                 display.charAt(display.length() - 1) == '%';
+    }
+
+    public static boolean lastInputIsTrig(String display) {
+        return display.endsWith("SIN(") || display.endsWith("COS(") ||
+                display.endsWith("TAN(") || display.endsWith("LOG(");
+    }
+
+    public static boolean startsWithTrig(String display) {
+        return display.startsWith("-LN") || display.startsWith("-LOG") ||
+                display.startsWith("-SIN") || display.startsWith("-COS") ||
+                display.startsWith("-TAN");
+    }
+
+    public static boolean equalsNontrig(String trig) {
+        return trig.equals("LN(") || trig.equals("LOG(") || trig.equals("SQRT(");
+    }
+
+    public static boolean lastInputIsDigit(String display) {
+        return Character.isDigit(display.charAt(display.length() - 1));
+    }
+
+    public static boolean lastInputIsError(String display) {
+        return display.endsWith("^") || display.endsWith("LN(") || display.endsWith("SQRT(");
     }
 
     // returns factorial answer
