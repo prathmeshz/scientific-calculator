@@ -25,6 +25,26 @@ public class Numbers extends MainActivity{
         return converted;
     }
 
+    // returns factorial answer
+    static boolean negative = false;
+    public static long factorial(int x) {
+        if (x < 0) {
+            x *= -1;
+            negative = true;
+        }
+        if (x == 1) {
+            if (negative) {
+                return -1;
+            } else {
+                return 1;
+            }
+        } else if (x == 0) {
+            return 1;
+        } else {
+            return x * factorial(x-1);
+        }
+    }
+
     // returns true if last input was +, -, *, /, (
     public static boolean lastInputIsOperator(String equation) {
         String[] operators = {"+", "-", "*", "/", "("};
@@ -64,25 +84,5 @@ public class Numbers extends MainActivity{
 
     public static boolean lastInputIsError(String display) {
         return display.endsWith("^") || display.endsWith("ln(") || display.endsWith("√(");
-    }
-
-    // returns factorial answer
-    static boolean negative = false;
-    public static long factorial(int x) {
-        if (x < 0) {
-            x *= -1;
-            negative = true;
-        }
-        if (x == 1) {
-            if (negative) {
-                return -1;
-            } else {
-                return 1;
-            }
-        } else if (x == 0) {
-            return 1;
-        } else {
-            return x * factorial(x-1);
-        }
     }
 }

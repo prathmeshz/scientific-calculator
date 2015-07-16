@@ -120,6 +120,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    // replace operator if more than one is clicked with no numbers in between
     private class operatorClickListener implements View.OnClickListener {
         private char operator;
         public operatorClickListener(char operator) {
@@ -140,11 +141,13 @@ public class MainActivity extends ActionBarActivity {
                 currNum = "";
                 insertNum(operator + "", false, true, true);
             }
-            outputEq.setText(display.replaceAll("\\*", "×").replaceAll("/", "÷"));
+            display = display.replaceAll("\\*", "×").replaceAll("/", "÷");
+            outputEq.setText(display);
         }
     }
 
-    class constantsClickListener implements View.OnClickListener {
+    // treat pi and e as numbers that can't be edited
+    private class constantsClickListener implements View.OnClickListener {
         private double constant;
         constantsClickListener(double constant) {
             this.constant = constant;
@@ -158,13 +161,13 @@ public class MainActivity extends ActionBarActivity {
                 insertNum("*" + constant, false, true, true);
             else
                 insertNum(Double.toString(constant), false, true, true);
-
-            outputEq.setText(display.replaceAll("3.14159265359", "π").replaceAll("2.71828182846", "e"));
+            display = display.replaceAll("3.14159265359", "π").replaceAll("2.71828182846", "e");
+            outputEq.setText(display);
         }
     }
 
-    //TODO fix display vs equation
-    class functionClickListener implements View.OnClickListener {
+    // log, ln, and sqrt treated as nonTrig, but function the same way as sin, cos, tan in degree mode
+    private class functionClickListener implements View.OnClickListener {
         private String trig;
         functionClickListener(String trig) {
             this.trig = trig;
@@ -195,7 +198,8 @@ public class MainActivity extends ActionBarActivity {
                 count++;
             }
             count++;
-            outputEq.setText(display.replaceAll("LOG\\(", "ln(").replaceAll("LOG10\\(", "log(").replaceAll("SQRT\\(", "√("));
+            display = display.replaceAll("LOG\\(", "ln(").replaceAll("LOG10\\(", "log(").replaceAll("SQRT\\(", "√(");
+            outputEq.setText(display);
         }
     }
 
@@ -225,6 +229,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    // figure out how many characters to backspace
     private class backspaceClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -353,6 +358,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    // keep count of how many open parentheses in count to know how many to close
     public class openClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -445,7 +451,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             if (equation.isEmpty()) ;
-            else if (Numbers.lastInputIsOperator(equation) || Numbers.lastInputIsFunction(display)) ;
+            else if (Numbers.lastInputIsOperator(equation) || Numbers.lastInputIsFunction(display) || display.endsWith("!")) ;
             else {
                 if (currNum.endsWith(".")) {
                     currNum = currNum.substring(0, currNum.length() - 1);
@@ -466,7 +472,7 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
 
-            //TODO 2!2!, 243564564! crash
+            //TODO 2!2!, 243564564!
         }
     }
 
@@ -482,7 +488,8 @@ public class MainActivity extends ActionBarActivity {
                 insertNum("*(10^", false, true, true); //display = E, equation = *(10^
                 count++;
             }
-            outputEq.setText(display.replaceAll("\\*\\(10\\^", "E"));
+            display = display.replaceAll("\\*\\(10\\^", "E");
+            outputEq.setText(display);
         }
     }
 
