@@ -1,19 +1,30 @@
 package nyc.c4q.sufeiiz.scientificcalculator;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class MainActivity extends ActionBarActivity {
 
     private Button clr, ans, negative, backspace, open, close, add, minus, multiply, divide, percent, zero, one, two, three,
             four, five, six, seven, eight, nine, dot, equal, factorial, pi, ee, sqRoot, sq, sin, cos, tan, exp, ln, log;
     private TextView outputEq, outputAns, mode;
+    private ListView listView;
+    private AsyncTask<Void, Void, List<Double>> addToDB;
     private String equation, currNum, lastAns, lastNum, display;
     private int count;
     private double π = 3.14159265359, e = 2.71828182846;
@@ -42,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // set OnClickListeners, methods located below onCreate
+        outputAns.setOnClickListener(new answersClickListener());
         zero.setOnClickListener(new numClickListener(0));
         one.setOnClickListener(new numClickListener(1));
         two.setOnClickListener(new numClickListener(2));
@@ -98,13 +110,32 @@ public class MainActivity extends ActionBarActivity {
             exp.setOnClickListener(new expClickListener());
             sq.setOnClickListener(new sqClickListener());
         }
+
+        // AsyncTask for database to store answers
+        addToDB = new AsyncTask<Void, Void, List<Double>>() {
+            @Override
+            protected List<Double> doInBackground(Void... param) { return loadData(); }
+
+            @Override
+            protected void onPostExecute(List<Double> ans) {
+                showData(ans);
+            }
+        };
     }
 
     /**
      * ON CLICK LISTENERS
-     * **/
+     **/
+    private class answersClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            listView.setVisibility(View.VISIBLE);
+        }
+    }
+
     private class numClickListener implements View.OnClickListener {
         private int num;
+
         public numClickListener(int num) {
             this.num = num;
         }
@@ -112,7 +143,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             if (display.isEmpty()) ;
-            else if (Numbers.lastInputIsConstant(display) || display.endsWith("!")) {
+            else if (Numbers.lastInputIsConstant(display) || display.endsWith("!") || display.endsWith("%")) {
                 insertNum("*", false, true, true);
             }
             insertNum(num + "", true, true, true);
@@ -123,6 +154,7 @@ public class MainActivity extends ActionBarActivity {
     // replace operator if more than one is clicked with no numbers in between
     private class operatorClickListener implements View.OnClickListener {
         private char operator;
+
         public operatorClickListener(char operator) {
             this.operator = operator;
         }
@@ -133,9 +165,10 @@ public class MainActivity extends ActionBarActivity {
                 lastNum = lastAns;
                 equation = lastAns + operator;
                 display = lastAns + operator;
-            } else if (equation.isEmpty() || Numbers.lastInputIsTrig(display) || Numbers.lastInputIsError(display)) ;
+            } else if (equation.isEmpty() || Numbers.lastInputIsTrig(display) || Numbers.lastInputIsError(display))
+                ;
             else if (Numbers.lastInputIsOperator(equation))
-                removeCharsAddChars(1, 1, operator+"", operator+"");
+                removeCharsAddChars(1, 1, operator + "", operator + "");
             else {
                 lastNum = currNum;
                 currNum = "";
@@ -149,6 +182,7 @@ public class MainActivity extends ActionBarActivity {
     // treat pi and e as numbers that can't be edited
     private class constantsClickListener implements View.OnClickListener {
         private double constant;
+
         constantsClickListener(double constant) {
             this.constant = constant;
         }
@@ -169,6 +203,7 @@ public class MainActivity extends ActionBarActivity {
     // log, ln, and sqrt treated as nonTrig, but function the same way as sin, cos, tan in degree mode
     private class functionClickListener implements View.OnClickListener {
         private String trig;
+
         functionClickListener(String trig) {
             this.trig = trig;
         }
@@ -187,7 +222,8 @@ public class MainActivity extends ActionBarActivity {
                 if (equation.isEmpty()) {
                     equation += "RAD(" + trig;
                     display += trig;
-                } else if (display.endsWith("E") || display.endsWith("^") || display.endsWith(".")) ;
+                } else if (display.endsWith("E") || display.endsWith("^") || display.endsWith("."))
+                    ;
                 else if (Numbers.lastInputIsDigit(display) || equation.endsWith(")") || Numbers.lastInputIsConstant(display)) {
                     equation += "*RAD(" + trig;
                     display += "×" + trig;
@@ -273,7 +309,8 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             if (equation.isEmpty() || display.isEmpty()) ;
-            else if (Numbers.lastInputIsFunction(display) || Numbers.lastInputIsOperator(equation)) ;
+            else if (Numbers.lastInputIsFunction(display) || Numbers.lastInputIsOperator(equation))
+                ;
             else {
                 equation = equation.substring(0, equation.length() - currNum.length());
                 String converted = Numbers.percentage(currNum, lastNum);
@@ -322,10 +359,10 @@ public class MainActivity extends ActionBarActivity {
                 char constant = display.charAt(display.length() - 1);
                 if (currNum.contains("-")) {
                     currNum = currNum.substring(1);
-                    removeCharsAddChars(14, 2, currNum, constant+"");
+                    removeCharsAddChars(14, 2, currNum, constant + "");
                 } else {
                     currNum = "-" + currNum;
-                    removeCharsAddChars(13, 1, currNum, constant+"");
+                    removeCharsAddChars(13, 1, currNum, constant + "");
                 }
             } else if (display.endsWith("s")) {
                 if (currNum.equals("0")) {
@@ -442,6 +479,7 @@ public class MainActivity extends ActionBarActivity {
                     outputEq.setText("Error");
                 }
                 clear();
+                updateData(lastAns);
                 outputAns.setText(lastAns);
             }
         }
@@ -451,7 +489,8 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             if (equation.isEmpty()) ;
-            else if (Numbers.lastInputIsOperator(equation) || Numbers.lastInputIsFunction(display) || display.endsWith("!")) ;
+            else if (Numbers.lastInputIsOperator(equation) || Numbers.lastInputIsFunction(display) || display.endsWith("!"))
+                ;
             else {
                 if (currNum.endsWith(".")) {
                     currNum = currNum.substring(0, currNum.length() - 1);
@@ -507,8 +546,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     /**
-    * Other Methods
-    **/
+     * Other Methods
+     */
     public void insertNum(String insert, boolean addCurrNum, boolean addEquation, boolean addDisplay) {
         if (addCurrNum)
             currNum += insert;
@@ -537,9 +576,35 @@ public class MainActivity extends ActionBarActivity {
         count = 0;
     }
 
+    //TODO db: saves only one answer. onclick should only set visibility, but when to save data?
+    
+    private void showData(List<Double> data) {
+        ListView listView = (ListView) findViewById(R.id.lastAnswerListview);
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data));
+    }
+
+    private List<Double> loadData() {
+        SQLOpenHelper helper = SQLOpenHelper.getInstance(this);
+        return helper.loadLastAnswers();
+    }
+
+    private void updateData(String insert) {
+        SQLOpenHelper helper = SQLOpenHelper.getInstance(this);
+        helper.insertData(insert);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (listView.getVisibility() == View.VISIBLE)
+            listView.setVisibility(View.INVISIBLE);
+        else
+            super.onBackPressed();
+    }
+
     public void initializeViews() {
         outputEq = (TextView) findViewById(R.id.output_equation);
         outputAns = (TextView) findViewById(R.id.output_answer);
+        listView = (ListView) findViewById(R.id.lastAnswerListview);
         clr = (Button) findViewById(R.id.btn_clear);
         ans = (Button) findViewById(R.id.btn_ans);
         negative = (Button) findViewById(R.id.btn_int);
