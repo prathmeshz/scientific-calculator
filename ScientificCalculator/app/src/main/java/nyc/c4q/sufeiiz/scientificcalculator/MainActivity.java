@@ -550,7 +550,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             if (display.isEmpty()) ;
-            else if (Numbers.lastInputIsConstant(display)) {
+            else if (Numbers.lastInputIsConstant(display) || display.endsWith("!") || display.endsWith("%")) {
                 equation += "*";
                 display += "×";
             }
